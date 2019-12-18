@@ -1,13 +1,14 @@
-package com.ageone.zenit.Modules.Profile
+package com.ageone.zenit.Modules.Auth
 
+import com.ageone.zenit.Application.utils
 import com.ageone.zenit.External.Interfaces.InterfaceModel
 import com.ageone.zenit.External.Interfaces.InterfaceViewModel
 
-class ProfileViewModel : InterfaceViewModel {
-    var model = ProfileModel()
+class AuthViewModel : InterfaceViewModel {
+    var model = AuthModel()
 
     enum class EventType {
-        OnFillAddressPressed
+
     }
 
     /*var realmData = listOf<>()
@@ -16,13 +17,13 @@ class ProfileViewModel : InterfaceViewModel {
     }*/
 
     fun initialize(recievedModel: InterfaceModel, completion: () -> (Unit)) {
-        if (recievedModel is ProfileModel) {
+        if (recievedModel is AuthModel) {
             model = recievedModel
             completion.invoke()
         }
     }
 }
 
-class ProfileModel : InterfaceModel {
+class AuthModel : InterfaceModel {
 
 }

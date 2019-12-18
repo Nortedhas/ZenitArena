@@ -1,6 +1,7 @@
 package com.ageone.zenit.Modules.Auth
 
 import android.graphics.Color
+import android.graphics.Typeface
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.ageone.zenit.Application.utils
@@ -8,7 +9,9 @@ import com.ageone.zenit.External.Base.ImageView.BaseImageView
 import com.ageone.zenit.External.Base.Module.BaseModule
 import com.ageone.zenit.External.Base.RecyclerView.BaseAdapter
 import com.ageone.zenit.External.Base.RecyclerView.BaseViewHolder
+import com.ageone.zenit.External.Base.TextView.BaseTextView
 import com.ageone.zenit.External.InitModuleUI
+import com.ageone.zenit.Modules.Auth.rows.ButtonViewHolder
 import com.ageone.zenit.Modules.Auth.rows.TextInputViewHolder
 import com.ageone.zenit.Modules.Auth.rows.initialize
 import com.ageone.zenit.R
@@ -25,20 +28,25 @@ class AuthView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMod
 
     val imageViewLogo by lazy {
         val imageView = BaseImageView()
-//        imageView.cornerRadius = .dp
         imageView.backgroundColor = Color.TRANSPARENT
         imageView.initialize()
-    // 	imageView.elevation = 5F.dp
         imageView
     }
 
     val imageViewBackground by lazy {
         val imageView = BaseImageView()
-//        imageView.cornerRadius = .dp
         imageView.backgroundColor = Color.TRANSPARENT
         imageView.initialize()
-    // 	imageView.elevation = 5F.dp
         imageView
+    }
+
+    val textViewWelcome by lazy {
+        val textView = BaseTextView()
+        textView.textColor = Color.parseColor("#00ACEB")
+        textView.textSize = 18F
+        textView.typeface = Typeface.DEFAULT_BOLD
+        textView.text = "ДОБРО ПОЖАЛОВАТЬ!"
+        textView
     }
 
     init {
@@ -52,7 +60,6 @@ class AuthView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMod
 
         bodyTable.adapter = viewAdapter
 //        bodyTable.overScrollMode = View.OVER_SCROLL_NEVER
-
 
         imageViewBackground.setBackgroundResource(R.drawable.back_lion)
         imageViewLogo.setBackgroundResource(R.drawable.zenit_logo)
@@ -76,12 +83,13 @@ class AuthView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMod
     inner class Factory(val rootModule: BaseModule) : BaseAdapter<BaseViewHolder>() {
 
         private val TextInputType = 0
+        private val ButtonType = 1
 
-        override fun getItemCount() = 1//viewModel.realmData.size
+        override fun getItemCount() = 2//viewModel.realmData.size
 
         override fun getItemViewType(position: Int): Int = when (position) {
             0 -> TextInputType
-            else -> -1
+            else -> ButtonType
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
@@ -95,6 +103,9 @@ class AuthView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMod
             val holder = when (viewType) {
                 TextInputType -> {
                     TextInputViewHolder(layout)
+                }
+                ButtonType -> {
+                    ButtonViewHolder(layout)
                 }
                 else -> {
                     BaseViewHolder(layout)
@@ -110,20 +121,20 @@ class AuthView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMod
                 is TextInputViewHolder -> {
                     holder.initialize()
                 }
-
+                is ButtonViewHolder -> {
+                    holder.initialize()
+                }
             }
-
         }
-
     }
-
 }
 
-fun AuthView.renderUIO() {
 
+fun AuthView.renderUIO() {
     backgroundFullscreen.subviews(
         imageViewBackground,
-        imageViewLogo
+        imageViewLogo,
+        textViewWelcome
     )
 
     imageViewBackground
@@ -138,6 +149,11 @@ fun AuthView.renderUIO() {
         .constrainTopToTopOf(backgroundFullscreen, 76)
         .constrainLeftToLeftOf(backgroundFullscreen)
         .constrainRightToRightOf(backgroundFullscreen)
+
+    textViewWelcome
+        .constrainTopToBottomOf(imageViewLogo, 38)
+        .constrainCenterXToCenterXOf(backgroundFullscreen)
+
 
     renderBodyTable()
 }

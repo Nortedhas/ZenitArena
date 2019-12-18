@@ -12,6 +12,9 @@ import com.ageone.zenit.External.InitModuleUI
 import com.ageone.zenit.Modules.Auth.AuthModel
 import com.ageone.zenit.Modules.Auth.AuthView
 import com.ageone.zenit.Modules.Auth.AuthViewModel
+import com.ageone.zenit.Modules.Registration.RegistrationModel
+import com.ageone.zenit.Modules.Registration.RegistrationView
+import com.ageone.zenit.Modules.Registration.RegistrationViewModel
 
 fun FlowCoordinator.runFlowAuth() {
 
@@ -53,6 +56,7 @@ class FlowAuth: BaseFlow() {
 
     inner class FlowAuthModels {
         val modelAuth = AuthModel()
+        val modelRegistration = RegistrationModel()
 
     }
     fun runModuleAuth() {
@@ -66,9 +70,32 @@ class FlowAuth: BaseFlow() {
 
         module.emitEvent = { event ->
             when (AuthViewModel.EventType.valueOf(event)) {
+                AuthViewModel.EventType.OnRegistrationPressed -> {
+                    runModuleRegistration()
+                }
+            }
+        }
+
+        push(module)
+    }
+
+    fun runModuleRegistration() {
+        val module = RegistrationView(
+            InitModuleUI(
+                isBottomNavigationVisible = false,
+                isBackPressed = false
+        ))
+
+        module.viewModel.initialize(models.modelRegistration) { module.reload() }
+
+        settingsCurrentFlow.isBottomNavigationVisible = false
+
+        module.emitEvent = { event ->
+            when (RegistrationViewModel.EventType.valueOf(event)) {
 
             }
         }
+
         push(module)
     }
 

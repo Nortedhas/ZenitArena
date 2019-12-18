@@ -1,15 +1,13 @@
 package com.ageone.zenit.Modules.Auth.rows
 
 import android.graphics.Color
-import android.graphics.Typeface
-import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.ageone.zenit.External.Base.RecyclerView.BaseViewHolder
 import com.ageone.zenit.External.Base.TextView.BaseTextView
 import com.ageone.zenit.External.Base.View.BaseView
 import yummypets.com.stevia.*
 
-class ButtonViewHolder(val constraintLayout: ConstraintLayout) : BaseViewHolder(constraintLayout) {
+class AuthButtonViewHolder(val constraintLayout: ConstraintLayout) : BaseViewHolder(constraintLayout) {
 
     val buttonBackViewSignIn by lazy {
         val view = BaseView()
@@ -30,7 +28,6 @@ class ButtonViewHolder(val constraintLayout: ConstraintLayout) : BaseViewHolder(
         val textView = BaseTextView()
         textView.textColor = Color.parseColor("#BBBCBC")
         textView.textSize = 13F
-        textView.visibility = View.VISIBLE
         textView
     }
 
@@ -49,17 +46,15 @@ class ButtonViewHolder(val constraintLayout: ConstraintLayout) : BaseViewHolder(
         textView
     }
 
+
     init {
 
-        textViewSignIn.text = "Войти"
-        textViewPassword.text = "Забыли пароль?"
-        textViewRegistration.text = "Зарегистрироваться"
         renderUI()
     }
 
 }
 
-fun ButtonViewHolder.renderUI() {
+fun AuthButtonViewHolder.renderUI() {
     constraintLayout.subviews(
         buttonBackViewSignIn,
         textViewSignIn,
@@ -91,6 +86,10 @@ fun ButtonViewHolder.renderUI() {
         .constrainCenterYToCenterYOf(buttonBackViewRegistration)
 }
 
-fun ButtonViewHolder.initialize() {
+fun AuthButtonViewHolder.initialize() {
+
+    textViewSignIn.text = "Войти"
+    textViewPassword.text = "Забыли пароль?"
+    textViewRegistration.text = "Зарегистрироваться"
 
 }

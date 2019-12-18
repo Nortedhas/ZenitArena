@@ -1,7 +1,6 @@
 package com.ageone.zenit.Modules.Auth
 
 import android.graphics.Color
-import android.graphics.Typeface
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.ageone.zenit.Application.utils
@@ -9,10 +8,9 @@ import com.ageone.zenit.External.Base.ImageView.BaseImageView
 import com.ageone.zenit.External.Base.Module.BaseModule
 import com.ageone.zenit.External.Base.RecyclerView.BaseAdapter
 import com.ageone.zenit.External.Base.RecyclerView.BaseViewHolder
-import com.ageone.zenit.External.Base.TextView.BaseTextView
 import com.ageone.zenit.External.InitModuleUI
-import com.ageone.zenit.Modules.Auth.rows.ButtonViewHolder
-import com.ageone.zenit.Modules.Auth.rows.TextInputViewHolder
+import com.ageone.zenit.Modules.Auth.rows.AuthButtonViewHolder
+import com.ageone.zenit.Modules.Auth.rows.AuthTextInputViewHolder
 import com.ageone.zenit.Modules.Auth.rows.initialize
 import com.ageone.zenit.R
 import yummypets.com.stevia.*
@@ -38,15 +36,6 @@ class AuthView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMod
         imageView.backgroundColor = Color.TRANSPARENT
         imageView.initialize()
         imageView
-    }
-
-    val textViewWelcome by lazy {
-        val textView = BaseTextView()
-        textView.textColor = Color.parseColor("#00ACEB")
-        textView.textSize = 18F
-        textView.typeface = Typeface.DEFAULT_BOLD
-        textView.text = "ДОБРО ПОЖАЛОВАТЬ!"
-        textView
     }
 
     init {
@@ -102,10 +91,10 @@ class AuthView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMod
 
             val holder = when (viewType) {
                 TextInputType -> {
-                    TextInputViewHolder(layout)
+                    AuthTextInputViewHolder(layout)
                 }
                 ButtonType -> {
-                    ButtonViewHolder(layout)
+                    AuthButtonViewHolder(layout)
                 }
                 else -> {
                     BaseViewHolder(layout)
@@ -118,11 +107,14 @@ class AuthView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMod
         override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
 
             when (holder) {
-                is TextInputViewHolder -> {
+                is AuthTextInputViewHolder -> {
                     holder.initialize()
                 }
-                is ButtonViewHolder -> {
+                is AuthButtonViewHolder -> {
                     holder.initialize()
+                    holder.buttonBackViewRegistration.setOnClickListener {
+                        emitEvent?.invoke(AuthViewModel.EventType.OnRegistrationPressed.name)
+                    }
                 }
             }
         }
@@ -133,8 +125,7 @@ class AuthView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMod
 fun AuthView.renderUIO() {
     backgroundFullscreen.subviews(
         imageViewBackground,
-        imageViewLogo,
-        textViewWelcome
+        imageViewLogo
     )
 
     imageViewBackground
@@ -149,11 +140,6 @@ fun AuthView.renderUIO() {
         .constrainTopToTopOf(backgroundFullscreen, 76)
         .constrainLeftToLeftOf(backgroundFullscreen)
         .constrainRightToRightOf(backgroundFullscreen)
-
-    textViewWelcome
-        .constrainTopToBottomOf(imageViewLogo, 38)
-        .constrainCenterXToCenterXOf(backgroundFullscreen)
-
 
     renderBodyTable()
 }

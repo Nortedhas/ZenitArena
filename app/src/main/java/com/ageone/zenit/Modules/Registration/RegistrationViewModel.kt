@@ -1,14 +1,14 @@
-package com.ageone.zenit.Modules.Auth
+package com.ageone.zenit.Modules.Registration
 
 import com.ageone.zenit.Application.utils
 import com.ageone.zenit.External.Interfaces.InterfaceModel
 import com.ageone.zenit.External.Interfaces.InterfaceViewModel
 
-class AuthViewModel : InterfaceViewModel {
-    var model = AuthModel()
+class RegistrationViewModel : InterfaceViewModel {
+    var model = RegistrationModel()
 
     enum class EventType {
-        OnRegistrationPressed
+
     }
 
     /*var realmData = listOf<>()
@@ -17,13 +17,13 @@ class AuthViewModel : InterfaceViewModel {
     }*/
 
     fun initialize(recievedModel: InterfaceModel, completion: () -> (Unit)) {
-        if (recievedModel is AuthModel) {
+        if (recievedModel is RegistrationModel) {
             model = recievedModel
             completion.invoke()
         }
     }
 }
 
-class AuthModel : InterfaceModel {
+class RegistrationModel : InterfaceModel {
 
 }

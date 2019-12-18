@@ -138,3 +138,21 @@ suspend fun DataBase.fetchCoroutine(filter: String, cashTime: Int = 0): Boolean 
     Timber.i("Object fetch: $jsonObject")
     return true
 }
+
+//TODO: replace in base after
+
+fun DataBase.link(from: DataBase, fromHashId: String, to: DataBase, toHashId: String, toPropertyName: String,  completion: (() -> Void)? = null) {
+
+    request(
+        mapOf(
+            "router" to "link",
+            "propertyName" to toPropertyName,
+            "linkFromCollectionName" to from.name,
+            "linkFromHashId" to fromHashId,
+            "linkToCollectionName" to to.name,
+            "linkToHashId" to toHashId
+        )) { jsonObject ->
+        Timber.i("Object: $jsonObject")
+        completion?.invoke()
+    }
+}

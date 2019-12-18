@@ -19,6 +19,7 @@ import com.ageone.zenit.Application.utils
 import com.ageone.zenit.External.Base.Button.BaseButton
 import com.ageone.zenit.External.Base.ConstraintLayout.dismissFocus
 import com.ageone.zenit.External.Base.ConstraintLayout.setButtonAboveKeyboard
+import com.ageone.zenit.External.Base.ImageView.BaseImageView
 import com.ageone.zenit.External.Base.Module.BaseModule
 import com.ageone.zenit.External.Base.RecyclerView.BaseAdapter
 import com.ageone.zenit.External.Base.RecyclerView.BaseViewHolder
@@ -42,6 +43,21 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
         viewAdapter
     }
 
+    val imageViewLion by lazy {
+        val imageView = BaseImageView()
+//        imageView.setBackgroundColor(Color.WHITE)
+        imageView.setImageResource(R.drawable.auth_lion)
+        imageView.initialize()
+        imageView
+    }
+
+    val imageViewLogo by lazy {
+        val imageView = BaseImageView()
+        imageView.setImageResource(R.drawable.zenit_logo)
+        imageView.initialize()
+        imageView
+    }
+
     val nextButton by lazy {
         val button = BaseButton()
         button.setBackgroundColor(Color.parseColor("#09D0B8"))
@@ -63,7 +79,7 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
         toolbar.title = "Регистрация"
         toolbar.textColor = Color.BLACK
 
-        renderToolbar()
+//        renderToolbar()
 
         bodyTable.adapter = viewAdapter
         bodyTable.overScrollMode = View.OVER_SCROLL_NEVER
@@ -92,7 +108,7 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
         private val RegistrationEditTextType = 0
         private val RegistrationTextType = 1
 
-        override fun getItemCount() = 3//viewModel.realmData.size
+        override fun getItemCount() = 0//viewModel.realmData.size
 
         override fun getItemViewType(position: Int): Int = when (position) {
             0,1 -> RegistrationEditTextType
@@ -163,8 +179,20 @@ fun RegistrationView.renderUIO() {
     innerContent.subviews(
         bodyTable,
         nextButton
-
     )
+
+    backgroundFullscreen.subviews(
+        imageViewLion,
+        imageViewLogo
+    )
+
+    imageViewLion
+        .constrainTopToTopOf(backgroundFullscreen)
+        .constrainLeftToLeftOf(backgroundFullscreen,41)
+
+    imageViewLogo
+        .constrainTopToTopOf(backgroundFullscreen,118)
+        .constrainCenterXToCenterXOf(backgroundFullscreen)
 
     bodyTable
         .fillHorizontally()

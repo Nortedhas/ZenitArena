@@ -4,14 +4,32 @@
     <!-- Цвет фона -->
     <item android:drawable="@android:color/white"/>
 
-    <!--<item>
+    <item
+            android:height="505px"
+            android:width="400px"
+            android:gravity="right"
+            android:top="186dp"
+            android:bottom="226dp"
+            android:left="68dp"
+            >
+        <bitmap
+                android:src="@drawable/loading_lion"
+                android:scaleType="centerCrop"
+        />
+
+    </item>
+
+
+    <item
+            android:width="208dp"
+            android:height="78dp"
+            android:gravity="center_vertical|center_horizontal"
+            >
 
         <bitmap
-                android:src="@drawable/back_loading"
-                android:scaleType="fitStart"
-
+                android:src="@drawable/zenit_logo"
+                android:scaleType="centerCrop"
                 />
-
-    </item>-->
+    </item>
 
 </layer-list>

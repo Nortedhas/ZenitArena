@@ -82,7 +82,7 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
         compositeDisposable.addAll(
             RxBus.listen(RxEvent.EventLoadImage::class.java).subscribe { event ->
                 currentLoadImage = event.loadedImage
-                bodyTable.adapter?.notifyDataSetChanged()
+                bodyTable.adapter?.notifyItemChanged(viewAdapter.itemCount - 2)
             }
         )
     }
@@ -281,7 +281,7 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
                     holder.initialize()
                     holder.textViewAction.setOnClickListener {
                         intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=JDSPAPOUU0U"))
-                        currentActivity?.startActivity(intent)                    }
+                        currentActivity?.startActivity(intent)}
                 }
                 is RegistrationPhotoViewHolder -> {
                     holder.initialize(currentLoadImage?.preview)

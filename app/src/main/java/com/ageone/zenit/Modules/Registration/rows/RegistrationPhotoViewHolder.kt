@@ -6,9 +6,12 @@ import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.view.Gravity
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.ageone.zenit.External.Base.ImageView.BaseImageView
 import com.ageone.zenit.External.Base.RecyclerView.BaseViewHolder
 import com.ageone.zenit.External.Base.TextView.BaseTextView
 import com.ageone.zenit.External.Base.View.BaseView
+import com.ageone.zenit.External.Libraries.Glide.addImageFromGlide
+import com.ageone.zenit.R
 import yummypets.com.stevia.*
 
 class RegistrationPhotoViewHolder(val constraintLayout: ConstraintLayout) :
@@ -27,6 +30,13 @@ class RegistrationPhotoViewHolder(val constraintLayout: ConstraintLayout) :
         view.cornerRadius = 80.dp
         view.initialize()
         view
+    }
+
+    val imageViewPhoto by lazy {
+        val imageView = BaseImageView()
+        imageView.backgroundColor = Color.TRANSPARENT
+        imageView.initialize()
+        imageView
     }
 
     val buttonBackViewRegistration by lazy {
@@ -63,6 +73,7 @@ fun RegistrationPhotoViewHolder.renderUI() {
     constraintLayout.subviews(
         textViewLoad,
         viewPhoto,
+        imageViewPhoto,
         buttonBackViewRegistration,
         textViewRegistration,
         textViewConvention
@@ -77,6 +88,12 @@ fun RegistrationPhotoViewHolder.renderUI() {
         .constrainCenterXToCenterXOf(constraintLayout)
         .height(80)
         .width(80)
+
+    imageViewPhoto
+        .constrainCenterXToCenterXOf(viewPhoto)
+        .constrainCenterYToCenterYOf(viewPhoto)
+        .height(24)
+        .width(24)
 
     buttonBackViewRegistration
         .constrainTopToBottomOf(viewPhoto,28)
@@ -106,4 +123,6 @@ fun RegistrationPhotoViewHolder.initialize() {
         text.length,  text.length + declaration.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
 
     textViewConvention.text = spannableContent
+
+    addImageFromGlide(imageViewPhoto,R.drawable.ic_photo)
 }

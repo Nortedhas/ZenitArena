@@ -1,18 +1,35 @@
 package com.ageone.zenit.Modules.Registration
 
+import android.app.DatePickerDialog
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
+import android.os.Bundle
+import android.os.Handler
+import android.view.MotionEvent
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.ageone.zenit.Application.currentActivity
+import com.ageone.zenit.Application.intent
 import com.ageone.zenit.Application.utils
+import com.ageone.zenit.External.Base.ConstraintLayout.dismissFocus
 import com.ageone.zenit.External.Base.ImageView.BaseImageView
 import com.ageone.zenit.External.Base.Module.BaseModule
 import com.ageone.zenit.External.Base.RecyclerView.BaseAdapter
 import com.ageone.zenit.External.Base.RecyclerView.BaseViewHolder
+import com.ageone.zenit.External.Base.TextInputLayout.BaseTextInputLayout
 import com.ageone.zenit.External.Base.TextInputLayout.InputEditTextType
+import com.ageone.zenit.External.Extensions.Activity.hideKeyboard
 import com.ageone.zenit.External.InitModuleUI
+import com.ageone.zenit.External.Libraries.Alert.alertManager
+import com.ageone.zenit.External.Libraries.Alert.list
 import com.ageone.zenit.Modules.Registration.rows.*
 import com.ageone.zenit.R
 import yummypets.com.stevia.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initModuleUI) {
 
@@ -73,7 +90,8 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
         private val TitleType = 0
         private val TextInputType = 1
         private val ActionTextType = 3
-        private val PhotoType = 4
+        private val PlaceTextInputType = 4
+        private val PhotoType = 5
 
         override fun getItemCount() = 17//viewModel.realmData.size
 
@@ -81,7 +99,7 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
             0 -> TitleType
             in 1 .. 12  -> TextInputType
             13 -> ActionTextType
-            14,15 -> TextInputType
+            14,15 -> PlaceTextInputType
             16 -> PhotoType
             else -> -1
         }
@@ -103,6 +121,9 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
                 }
                 ActionTextType -> {
                     RegistrationActionTextViewHolder(layout)
+                }
+                PlaceTextInputType -> {
+                    RegistrationPlaceTextInputViewHolder(layout)
                 }
                 PhotoType -> {
                     RegistrationPhotoViewHolder(layout)
@@ -134,9 +155,34 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
                         }
                         4 -> {
                             holder.initialize("Ваш пол", InputEditTextType.TEXT)
+                            innerContent.dismissFocus(holder.textInputRegistration.editText)
+
+                            holder.textInputRegistration.editText?.setOnTouchListener { v, event ->
+                                if(event.action == MotionEvent.ACTION_DOWN) {
+                                    Handler().postDelayed({
+                                        currentActivity?.hideKeyboard()
+                                    },300)
+
+                                    val genderVariant = arrayOf("Женский", "Мужской")
+                                    alertManager.list("Ваш пол", genderVariant) { _, index ->
+                                    holder.textInputRegistration.editText?.setText(genderVariant[index])}
+                                }
+                                false
+                            }
                         }
                         5 -> {
                             holder.initialize("Дата рождения", InputEditTextType.TEXT)
+                            innerContent.dismissFocus(holder.textInputRegistration.editText)
+
+                            holder.textInputRegistration.editText?.setOnTouchListener{ v, event->
+                                if(event.action == MotionEvent.ACTION_DOWN) {
+                                    Handler().postDelayed({
+                                        currentActivity?.hideKeyboard()
+                                    },300)
+                                    startDatePicker(holder.textInputRegistration)
+                                }
+                                false
+                            }
                         }
                         6 -> {
                             holder.initialize("Место рождения", InputEditTextType.TEXT)
@@ -160,26 +206,49 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
                         12 -> {
                             holder.initialize("ИНН", InputEditTextType.NUMERIC)
                         }
+                    }
+                }
+                is RegistrationActionTextViewHolder -> {
+                    holder.initialize()
+                    holder.textViewAction.setOnClickListener {
+                        intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=JDSPAPOUU0U"))
+                        currentActivity?.startActivity(intent)                    }
+                }
+                is RegistrationPlaceTextInputViewHolder -> {
+                    when(position) {
                         14 -> {
                             holder.initialize("Место работы/учёбы", InputEditTextType.TEXT)
                         }
                         15 -> {
                             holder.initialize("Размер куртки", InputEditTextType.TEXT)
+                            innerContent.dismissFocus(holder.textInputPlace.editText)
+
+                            holder.textInputPlace.editText?.setOnTouchListener { v, event ->
+                                if(event.action == MotionEvent.ACTION_DOWN) {
+
+                                    Handler().postDelayed({
+                                        currentActivity?.hideKeyboard()
+                                    },300)
+
+                                    val sizeVariants = arrayOf("S", "M", "L", "XL", "XXL")
+                                    alertManager.list("Размер куртки", sizeVariants) { _, index ->
+                                        holder.textInputPlace.editText?.setText(sizeVariants[index])}
+                                }
+                                false
+                            }
                         }
                     }
                 }
-                is RegistrationActionTextViewHolder -> {
-                    holder.initialize()
-                }
                 is RegistrationPhotoViewHolder -> {
                     holder.initialize()
+                    holder.textViewConvention.setOnClickListener {
+                        intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=JDSPAPOUU0U"))
+                        currentActivity?.startActivity(intent)
+                    }
                 }
             }
-
         }
-
     }
-
 }
 
 fun RegistrationView.renderUIO() {
@@ -203,5 +272,25 @@ fun RegistrationView.renderUIO() {
 
     renderBodyTable()
 }
+
+fun RegistrationView.startDatePicker(textInput: BaseTextInputLayout) {
+    val calendar = Calendar.getInstance()
+    val year = calendar.get(Calendar.YEAR)
+    val month = calendar.get(Calendar.MONTH)
+    val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+    val datePickerDialog = DatePickerDialog(currentActivity, R.style.TimePickerTheme,DatePickerDialog.OnDateSetListener { view, year, month, day ->
+        calendar.set(Calendar.YEAR, year)
+        calendar.set(Calendar.MONTH, month)
+        calendar.set(Calendar.DAY_OF_MONTH, day)
+        val simpleDateFormat = SimpleDateFormat("dd.MM.yyyy")
+
+        textInput.editText?.setText(simpleDateFormat.format(calendar.time))
+    }, year, month,day)
+
+    datePickerDialog.show()
+}
+
+
 
 

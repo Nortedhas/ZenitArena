@@ -9,6 +9,8 @@ import com.ageone.zenit.External.Base.Module.BaseModule
 import com.ageone.zenit.External.Base.RecyclerView.BaseAdapter
 import com.ageone.zenit.External.Base.RecyclerView.BaseViewHolder
 import com.ageone.zenit.External.InitModuleUI
+import com.ageone.zenit.External.Libraries.Alert.alertManager
+import com.ageone.zenit.External.Libraries.Alert.single
 import com.ageone.zenit.Modules.Auth.rows.AuthButtonViewHolder
 import com.ageone.zenit.Modules.Auth.rows.AuthTextInputViewHolder
 import com.ageone.zenit.Modules.Auth.rows.initialize
@@ -114,6 +116,9 @@ class AuthView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMod
                     holder.initialize()
                     holder.buttonBackViewRegistration.setOnClickListener {
                         emitEvent?.invoke(AuthViewModel.EventType.OnRegistrationPressed.name)
+                    }
+                    holder.textViewPassword.setOnClickListener {
+                        alertManager.single("","На вашу почту отправлен\nновый пароль",R.drawable.ic_lock,true,"Ok" ) {_,index -> }
                     }
                 }
             }

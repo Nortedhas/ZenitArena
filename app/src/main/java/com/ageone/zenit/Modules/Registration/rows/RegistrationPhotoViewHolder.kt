@@ -1,11 +1,11 @@
 package com.ageone.zenit.Modules.Registration.rows
 
 import android.graphics.Color
+import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.ageone.zenit.External.Base.ImageView.BaseImageView
 import com.ageone.zenit.External.Base.RecyclerView.BaseViewHolder
 import com.ageone.zenit.External.Base.TextView.BaseTextView
-import com.ageone.zenit.External.Base.View.BaseView
 import com.ageone.zenit.External.Libraries.Glide.addImageFromGlide
 import com.ageone.zenit.R
 import yummypets.com.stevia.*
@@ -20,15 +20,16 @@ class RegistrationPhotoViewHolder(val constraintLayout: ConstraintLayout) :
         textView
     }
 
-    val viewPhoto by lazy {
-        val view = BaseView()
-        view.backgroundColor = Color.parseColor("#D7D7D8")
-        view.cornerRadius = 80.dp
-        view.initialize()
-        view
+    val imageViewPhoto by lazy {
+        val imageView = BaseImageView()
+        imageView.cornerRadius = 80.dp
+        imageView.setBackgroundColor(Color.GRAY)
+        imageView.backgroundColor = Color.GRAY
+        imageView.initialize()
+        imageView
     }
 
-    val imageViewPhoto by lazy {
+    val imageViewIconPhoto by lazy {
         val imageView = BaseImageView()
         imageView.backgroundColor = Color.TRANSPARENT
         imageView.initialize()
@@ -45,31 +46,37 @@ class RegistrationPhotoViewHolder(val constraintLayout: ConstraintLayout) :
 fun RegistrationPhotoViewHolder.renderUI() {
     constraintLayout.subviews(
         textViewLoad,
-        viewPhoto.subviews(
-            imageViewPhoto
-        )
+        imageViewPhoto,
+        imageViewIconPhoto
     )
+
 
     textViewLoad
         .constrainTopToTopOf(constraintLayout,22)
         .constrainCenterXToCenterXOf(constraintLayout)
 
-    viewPhoto
+    imageViewPhoto
         .constrainTopToBottomOf(textViewLoad,17)
         .constrainCenterXToCenterXOf(constraintLayout)
         .height(80)
         .width(80)
 
-    imageViewPhoto
-        .constrainCenterXToCenterXOf(viewPhoto)
-        .constrainCenterYToCenterYOf(viewPhoto)
+    imageViewIconPhoto
+        .constrainCenterXToCenterXOf(imageViewPhoto)
+        .constrainCenterYToCenterYOf(imageViewPhoto)
         .height(24)
         .width(24)
 }
 
-fun RegistrationPhotoViewHolder.initialize() {
+fun RegistrationPhotoViewHolder.initialize(imagePreview: String?) {
 
     textViewLoad.text = "Загрузить фото"
 
-    addImageFromGlide(imageViewPhoto,R.drawable.ic_photo)
+    addImageFromGlide(imageViewIconPhoto,R.drawable.ic_photo)
+    if(!imagePreview.isNullOrBlank()) {
+        addImageFromGlide(imageViewPhoto,imagePreview,40.dp)
+        imageViewIconPhoto.visibility = View.GONE
+    } else {
+        imageViewIconPhoto.visibility = View.VISIBLE
+    }
 }

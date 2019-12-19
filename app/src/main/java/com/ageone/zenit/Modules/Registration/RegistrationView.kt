@@ -58,10 +58,13 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
 
         toolbar.title = ""
 
+        toolbar.height(0)
         renderToolbar()
 
         bodyTable.adapter = viewAdapter
 //        bodyTable.overScrollMode = View.OVER_SCROLL_NEVER
+
+        bodyTable.setItemViewCacheSize(18)
 
         imageViewBackground.setBackgroundResource(R.drawable.back_lion)
         renderUIO()
@@ -99,7 +102,7 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
             0 -> TitleType
             in 1 .. 12  -> TextInputType
             13 -> ActionTextType
-            14,15 -> PlaceTextInputType
+            14,15 -> TextInputType
             16 -> PhotoType
             else -> ButtonType
         }
@@ -281,7 +284,7 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
                         currentActivity?.startActivity(intent)                    }
                 }
                 is RegistrationPhotoViewHolder -> {
-                    holder.initialize()
+                    holder.initialize(currentLoadImage?.preview)
                     holder.imageViewPhoto.setOnClickListener {
                         intent = Intent(Intent.ACTION_PICK)
                         // intent.addCategory(Intent.CATEGORY_OPENABLE)

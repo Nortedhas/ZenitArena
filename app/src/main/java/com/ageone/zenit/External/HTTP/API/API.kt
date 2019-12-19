@@ -11,7 +11,12 @@ import com.ageone.zenit.Application.utils
 import com.ageone.zenit.External.Libraries.Alert.alertManager
 import com.ageone.zenit.External.Libraries.Alert.blockUI
 import com.ageone.zenit.External.Libraries.Alert.single
+import com.ageone.zenit.SCAG.DataBase.DataObjects.url
 import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.core.DataPart
+import com.github.kittinunf.fuel.core.FileDataPart
+import com.github.kittinunf.fuel.core.Method
+import com.github.kittinunf.fuel.core.Parameters
 import com.github.kittinunf.fuel.core.extensions.jsonBody
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -182,10 +187,41 @@ class API {
 
     }
 
+    fun uploadImage(completion: () -> Unit){
+
+        /*val file = FileDataPart.from("path_to_your_file", name = "image")
+        *//*Fuel.upload("$url${Routes.UploadImage.path}",
+            parameters = Parameters(listOf<>()))
+            .add(file)*//*
+
+
+        Fuel.upload(path = "$url${Routes.UploadImage.path}", method = Method.POST)
+//            .header(TaggunConstants.taggunHeader(taggunApiKey))
+            .dataParts { _, _ -> listOf(DataPart(file, "file", "image/jpeg")) }
+            .add(file)
+            .responseString { request, response, result ->
+                result.fold({ result ->
+                    Timber.i("API Handshake: $request $response")
+
+                    val jsonObject = JSONObject(result)
+                    utils.variable.token = jsonObject.optString("Token")
+                    Timber.i("API new token: ${utils.variable.token}")
+                    cashTime = Date().time.toInt()
+                    parser.userData(jsonObject)
+                    completion.invoke()
+
+                },{ error ->
+                    Timber.e("${error.response.responseMessage}")
+                })
+
+            }*/
+    }
+
 
     enum class Routes(val path: String) {
         Handshake("/handshake"),
         Database("/database"),
+        UploadImage("/uploadimage"),
         Api("/api");
     }
 

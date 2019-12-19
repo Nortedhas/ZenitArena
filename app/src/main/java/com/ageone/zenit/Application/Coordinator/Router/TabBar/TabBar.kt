@@ -64,8 +64,8 @@ object TabBar {
         bottomNavigation.setTitleTextSize(30f,30f)
         bottomNavigation.defaultBackgroundColor = Color.parseColor("#FEFEFE")//colorIcons
         bottomNavigation.isBehaviorTranslationEnabled = true
-        bottomNavigation.accentColor = Color.parseColor("#911022")
-        bottomNavigation.inactiveColor = Color.parseColor("#AFAFB4")
+        bottomNavigation.accentColor = Color.parseColor("#00ACEB")
+        bottomNavigation.inactiveColor = Color.parseColor("#D7D7D8")
         bottomNavigation.isForceTint = true
         bottomNavigation.isTranslucentNavigationEnabled = false
         bottomNavigation.titleState = AHBottomNavigation.TitleState.ALWAYS_SHOW
@@ -83,9 +83,11 @@ object TabBar {
 
     private fun createStackItem() {
         items = arrayListOf(
-            AHBottomNavigationItem("Где кофе", R.drawable.ic_cross),
-            AHBottomNavigationItem("QR-код", R.drawable.ic_cross),
-            AHBottomNavigationItem("Настройки", R.drawable.ic_cross)
+            AHBottomNavigationItem("Новости", R.drawable.ic_lion),
+            AHBottomNavigationItem("Сообщения", R.drawable.ic_messages),
+            AHBottomNavigationItem("События", R.drawable.ic_events),
+            AHBottomNavigationItem("Статус", R.drawable.ic_status),
+            AHBottomNavigationItem("Профиль", R.drawable.ic_profile)
         )
 
     }

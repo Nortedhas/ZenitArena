@@ -70,6 +70,9 @@ class FlowAuth: BaseFlow() {
 
         module.emitEvent = { event ->
             when (AuthViewModel.EventType.valueOf(event)) {
+                AuthViewModel.EventType.OnEnterPressed -> {
+                    module.startLoadingFlow()
+                }
                 AuthViewModel.EventType.OnRegistrationPressed -> {
                     runModuleRegistration()
                 }

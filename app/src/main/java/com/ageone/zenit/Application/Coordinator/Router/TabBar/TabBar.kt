@@ -85,7 +85,7 @@ object TabBar {
         items = arrayListOf(
             AHBottomNavigationItem("Новости", R.drawable.ic_lion),
             AHBottomNavigationItem("Чаты", R.drawable.ic_messages),
-            AHBottomNavigationItem("События", R.drawable.ic_messages),
+            AHBottomNavigationItem("События", R.drawable.ic_events),
             AHBottomNavigationItem("Статус", R.drawable.ic_status),
             AHBottomNavigationItem("Профиль", R.drawable.ic_profile)
         )

@@ -15,33 +15,36 @@ import yummypets.com.stevia.*
 val alertManager
     get() = AlertManager()
 
+//TODO: replace in base
+
 class AlertManager {
 
     fun renderUI() {
 
         constraintLayout.subviews(
-                imageViewIcon,
-                textViewTitle,
-                textViewMessage
+            imageViewIcon,
+            textViewTitle,
+            textViewMessage
         )
 
         imageViewIcon
-                .constrainTopToTopOf(constraintLayout, 8)
-                .constrainLeftToLeftOf(constraintLayout, 16)
-                .height(20F.dp)
-                .width(20F.dp)
+            .constrainTopToTopOf(constraintLayout, 8)
+            .constrainLeftToLeftOf(constraintLayout)
+            .constrainRightToRightOf(constraintLayout)
+            .height(100)
+            .width(100)
 
         textViewTitle
-                .fillHorizontally()
-                .constrainLeftToLeftOf(constraintLayout, 16)
-                .constrainTopToBottomOf(imageViewIcon, 8)
-                .constrainRightToRightOf(constraintLayout, 16)
+            .fillHorizontally()
+            .constrainTopToBottomOf(imageViewIcon, 8)
+            .constrainLeftToLeftOf(constraintLayout, 16)
+            .constrainRightToRightOf(constraintLayout, 16)
 
         textViewMessage
-                .fillHorizontally()
-                .constrainLeftToLeftOf(constraintLayout, 16)
-                .constrainTopToBottomOf(textViewTitle, 8)
-                .constrainRightToRightOf(constraintLayout, 16)
+            .fillHorizontally()
+            .constrainLeftToLeftOf(constraintLayout, 16)
+            .constrainTopToBottomOf(textViewTitle, 8)
+            .constrainRightToRightOf(constraintLayout, 16)
 
     }
 
@@ -91,13 +94,13 @@ fun AlertManager.single(title: String, message: String, image: Int? = null, bloc
     renderUI()
     if (completion == null) {
         textViewMessage
-                .constrainBottomToBottomOf(constraintLayout,16)
+            .constrainBottomToBottomOf(constraintLayout,16)
     }
     if (image == null) {
         imageViewIcon
-                .height(0)
-                .width(0)
-                .constrainTopToTopOf(constraintLayout, 0)
+            .height(0)
+            .width(0)
+            .constrainTopToTopOf(constraintLayout, 0)
     } else {
         imageViewIcon.setImageResource(image)
     }
@@ -124,18 +127,18 @@ fun AlertManager.single(title: String, message: String, image: Int? = null, bloc
 // MARK: Double
 
 fun AlertManager.double(
-        title: String, message: String, image: Int? = null,blockingExternalPresses:Boolean? = null,
-        button: String = "OK", completion: (DialogInterface, Int) -> (Unit),
-        buttonCancel: String = "CANCEL", completionCancel: ((DialogInterface, Int) -> (Unit))? = null
+    title: String, message: String, image: Int? = null,blockingExternalPresses:Boolean? = null,
+    button: String = "OK", completion: (DialogInterface, Int) -> (Unit),
+    buttonCancel: String = "CANCEL", completionCancel: ((DialogInterface, Int) -> (Unit))? = null
 ) {
 
     renderUI()
 
     if (image == null) {
         imageViewIcon
-                .height(0)
-                .width(0)
-                .constrainTopToTopOf(constraintLayout, 0)
+            .height(0)
+            .width(0)
+            .constrainTopToTopOf(constraintLayout, 0)
     } else {
         imageViewIcon.setImageResource(image)
     }

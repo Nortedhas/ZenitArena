@@ -40,13 +40,6 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
         viewAdapter
     }
 
-    val imageViewLogo by lazy {
-        val imageView = BaseImageView()
-        imageView.backgroundColor = Color.TRANSPARENT
-        imageView.initialize()
-        imageView
-    }
-
     val imageViewBackground by lazy {
         val imageView = BaseImageView()
         imageView.backgroundColor = Color.TRANSPARENT
@@ -61,13 +54,14 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
 
         toolbar.title = ""
 
+        toolbar.height(0)
         renderToolbar()
+
 
         bodyTable.adapter = viewAdapter
 //        bodyTable.overScrollMode = View.OVER_SCROLL_NEVER
 
         imageViewBackground.setBackgroundResource(R.drawable.back_lion)
-        imageViewLogo.setBackgroundResource(R.drawable.zenit_logo)
         renderUIO()
         bindUI()
 
@@ -97,9 +91,9 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
 
         override fun getItemViewType(position: Int): Int = when (position) {
             0 -> TitleType
-            in 1 .. 12  -> TextInputType
+            1,2,3,4,5,6,7  -> TextInputType
             13 -> ActionTextType
-            14,15 -> PlaceTextInputType
+            8,9,10,11,12,14,15 -> PlaceTextInputType
             16 -> PhotoType
             else -> -1
         }
@@ -190,6 +184,17 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
                         7 -> {
                             holder.initialize("Email", InputEditTextType.EMAIL)
                         }
+                    }
+                }
+                is RegistrationActionTextViewHolder -> {
+                    holder.initialize()
+                    holder.textViewAction.setOnClickListener {
+                        intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=QH2-TGUlwu4"))
+                        currentActivity?.startActivity(intent)
+                    }
+                }
+                is RegistrationPlaceTextInputViewHolder -> {
+                    when(position) {
                         8 -> {
                             holder.initialize("Номер телефона", InputEditTextType.PHONE)
                         }
@@ -198,7 +203,7 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
                         }
                         10 -> {
                             holder.initialize("Кем и когда выдан", InputEditTextType.TEXT)
-                            holder.textInputRegistration.editText?.maxLines = 3
+                            holder.textInputPlace.editText?.maxLines = 3
                         }
                         11 -> {
                             holder.initialize("СНИЛС", InputEditTextType.NUMERIC)
@@ -206,16 +211,6 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
                         12 -> {
                             holder.initialize("ИНН", InputEditTextType.NUMERIC)
                         }
-                    }
-                }
-                is RegistrationActionTextViewHolder -> {
-                    holder.initialize()
-                    holder.textViewAction.setOnClickListener {
-                        intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=JDSPAPOUU0U"))
-                        currentActivity?.startActivity(intent)                    }
-                }
-                is RegistrationPlaceTextInputViewHolder -> {
-                    when(position) {
                         14 -> {
                             holder.initialize("Место работы/учёбы", InputEditTextType.TEXT)
                         }
@@ -242,7 +237,7 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
                 is RegistrationPhotoViewHolder -> {
                     holder.initialize()
                     holder.textViewConvention.setOnClickListener {
-                        intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=JDSPAPOUU0U"))
+                        intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=QH2-TGUlwu4"))
                         currentActivity?.startActivity(intent)
                     }
                 }
@@ -253,8 +248,7 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
 
 fun RegistrationView.renderUIO() {
     backgroundFullscreen.subviews(
-        imageViewBackground,
-        imageViewLogo
+        imageViewBackground
     )
 
     imageViewBackground
@@ -263,12 +257,7 @@ fun RegistrationView.renderUIO() {
         .constrainTopToTopOf(backgroundFullscreen)
         .constrainLeftToLeftOf(backgroundFullscreen, utils.tools.getActualSizeFromDes(40).toInt())
 
-    imageViewLogo
-        .width(utils.tools.getActualSizeFromDes(208))
-        .height(utils.tools.getActualSizeFromDes(78))
-        .constrainTopToTopOf(backgroundFullscreen, 76)
-        .constrainLeftToLeftOf(backgroundFullscreen)
-        .constrainRightToRightOf(backgroundFullscreen)
+
 
     renderBodyTable()
 }

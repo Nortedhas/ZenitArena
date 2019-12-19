@@ -1,6 +1,8 @@
 package com.ageone.zenit.Modules.Auth
 
 import android.graphics.Color
+import android.graphics.Typeface
+import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.ageone.zenit.Application.utils
@@ -8,6 +10,8 @@ import com.ageone.zenit.External.Base.ImageView.BaseImageView
 import com.ageone.zenit.External.Base.Module.BaseModule
 import com.ageone.zenit.External.Base.RecyclerView.BaseAdapter
 import com.ageone.zenit.External.Base.RecyclerView.BaseViewHolder
+import com.ageone.zenit.External.Base.TextInputLayout.InputEditTextType
+import com.ageone.zenit.External.Base.TextView.BaseTextView
 import com.ageone.zenit.External.InitModuleUI
 import com.ageone.zenit.External.Libraries.Alert.alertManager
 import com.ageone.zenit.External.Libraries.Alert.single
@@ -40,6 +44,17 @@ class AuthView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMod
         imageView.initialize()
         imageView
     }
+
+    val textViewWelcome by lazy {
+        val textView = BaseTextView()
+        textView.textColor = Color.parseColor("#00ACEB")
+        textView.textSize = 18F
+        textView.typeface = Typeface.DEFAULT_BOLD
+        textView.text = "ДОБРО ПОЖАЛОВАТЬ!"
+        textView
+    }
+
+
 
     init {
 //        viewModel.loadRealmData()
@@ -76,12 +91,14 @@ class AuthView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMod
 
         private val TextInputType = 0
         private val ButtonType = 1
+        private val PasswordTextType = 2
 
-        override fun getItemCount() = 2//viewModel.realmData.size
+        override fun getItemCount() = 4//viewModel.realmData.size
 
         override fun getItemViewType(position: Int): Int = when (position) {
-            0 -> TextInputType
-            else -> ButtonType
+            0,1 -> TextInputType
+            2,3 -> ButtonType
+            else -> PasswordTextType
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
@@ -111,23 +128,45 @@ class AuthView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMod
 
             when (holder) {
                 is AuthTextInputViewHolder -> {
-                    holder.initialize()
+                    when(position) {
+                        0-> {
+                            holder.initialize("Email", InputEditTextType.EMAIL)
+                        }
+                        1 -> {
+                            holder.initialize("Пароль", InputEditTextType.PASSWORD)
+                            holder.textInputAuth.constrainTopToTopOf(holder.constraintLayout,25)
+
+                        }
+                    }
+
                 }
                 is AuthButtonViewHolder -> {
-                    holder.initialize()
-                    holder.buttonBackViewRegistration.setOnClickListener {
-                        emitEvent?.invoke(AuthViewModel.EventType.OnRegistrationPressed.name)
-                    }
-                    holder.buttonBackViewSignIn.setOnClickListener {
-                        user.isAuthorized = true //todo: delete after add server
-                        emitEvent?.invoke(AuthViewModel.EventType.OnEnterPressed.name)
-                    }
-                    holder.textViewPassword.setOnClickListener {
-                        alertManager.single("На вашу почту отправлен новый пароль",
-                            "",
-                            R.drawable.ic_lock,
-                            true,
-                            "Ok" ) {_,index -> }
+                    when(position) {
+                        2 -> {
+                            holder.initialize("Войти")
+                            holder.buttonAuth.setOnClickListener {
+                                user.isAuthorized = true //todo: delete after add server
+                                emitEvent?.invoke(AuthViewModel.EventType.OnEnterPressed.name)
+                            }
+
+                            holder.textViewPassword.setOnClickListener {
+                                alertManager.single(
+                                    "На вашу почту отправлен новый пароль",
+                                    "",
+                                    R.drawable.ic_lock,
+                                    true,
+                                    "Ok"
+                                ) { _, index -> }
+                            }
+                        }
+                        3 -> {
+                            holder.buttonAuth.constrainTopToTopOf(holder.constraintLayout, 33)
+                            holder.initialize("Зарегистрироваться")
+                            holder.buttonAuth.setOnClickListener {
+                                emitEvent?.invoke(AuthViewModel.EventType.OnRegistrationPressed.name)
+                            }
+                            holder.textViewPassword.visibility = View.GONE
+                        }
                     }
                 }
             }
@@ -139,7 +178,8 @@ class AuthView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMod
 fun AuthView.renderUIO() {
     backgroundFullscreen.subviews(
         imageViewBackground,
-        imageViewLogo
+        imageViewLogo,
+        textViewWelcome
     )
 
     imageViewBackground
@@ -154,6 +194,10 @@ fun AuthView.renderUIO() {
         .constrainTopToTopOf(backgroundFullscreen, 76)
         .constrainLeftToLeftOf(backgroundFullscreen)
         .constrainRightToRightOf(backgroundFullscreen)
+
+    textViewWelcome
+        .constrainTopToBottomOf(imageViewLogo,50)
+        .constrainCenterXToCenterXOf(backgroundFullscreen)
 
     renderBodyTable()
 }

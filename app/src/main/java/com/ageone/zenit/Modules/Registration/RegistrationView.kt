@@ -11,6 +11,7 @@ import android.view.MotionEvent
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.ageone.zenit.Application.REQUEST_GET_PHOTO
 import com.ageone.zenit.Application.currentActivity
 import com.ageone.zenit.Application.intent
 import com.ageone.zenit.Application.utils
@@ -25,8 +26,11 @@ import com.ageone.zenit.External.Extensions.Activity.hideKeyboard
 import com.ageone.zenit.External.InitModuleUI
 import com.ageone.zenit.External.Libraries.Alert.alertManager
 import com.ageone.zenit.External.Libraries.Alert.list
+import com.ageone.zenit.External.RxBus.RxBus
+import com.ageone.zenit.Models.RxEvent
 import com.ageone.zenit.Modules.Registration.rows.*
 import com.ageone.zenit.R
+import com.ageone.zenit.SCAG.Image
 import yummypets.com.stevia.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -77,12 +81,15 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
 
     }
 
+    var currentLoadImage: Image? = null
+
     fun bindUI() {
-        /*compositeDisposable.addAll(
-            RxBus.listen(RxEvent.Event::class.java).subscribe {
+        compositeDisposable.addAll(
+            RxBus.listen(RxEvent.EventLoadImage::class.java).subscribe { event ->
+                currentLoadImage = event.loadedImage
                 bodyTable.adapter?.notifyDataSetChanged()
             }
-        )*/
+        )
     }
 
     inner class Factory(val rootModule: BaseModule) : BaseAdapter<BaseViewHolder>() {
@@ -241,6 +248,13 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
                 }
                 is RegistrationPhotoViewHolder -> {
                     holder.initialize()
+                    holder.imageViewPhoto.setOnClickListener {
+                        intent = Intent(Intent.ACTION_PICK)
+                        // intent.addCategory(Intent.CATEGORY_OPENABLE)
+                        intent.type = "image/*"
+                        currentActivity?.startActivityForResult(
+                            Intent.createChooser(intent, "Select Picture"), REQUEST_GET_PHOTO)
+                    }
                     holder.textViewConvention.setOnClickListener {
                         intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=JDSPAPOUU0U"))
                         currentActivity?.startActivity(intent)

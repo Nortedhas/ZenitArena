@@ -1,16 +1,13 @@
 package com.ageone.zenit.External.HTTP.API
 
 import android.provider.Settings
-import com.ageone.zenit.SCAG.DataBase
-import com.ageone.zenit.SCAG.Parser
-import com.ageone.zenit.SCAG.config
-import com.ageone.zenit.SCAG.userData
 import com.ageone.zenit.Application.api
 import com.ageone.zenit.Application.currentActivity
 import com.ageone.zenit.Application.utils
 import com.ageone.zenit.External.Libraries.Alert.alertManager
 import com.ageone.zenit.External.Libraries.Alert.blockUI
 import com.ageone.zenit.External.Libraries.Alert.single
+import com.ageone.zenit.SCAG.*
 import com.ageone.zenit.SCAG.DataBase.DataObjects.url
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.DataPart
@@ -32,7 +29,7 @@ class API {
 
     val parser = Parser()
 
-    fun handshake(completion: () -> Unit){
+    fun handshake(completion: () -> Unit) {
         Fuel.post(Routes.Handshake.path)
             .jsonBody(
                 createBody(mapOf(
@@ -187,34 +184,51 @@ class API {
 
     }
 
-    fun uploadImage(completion: () -> Unit){
+    //TODO: replace in base
 
-        /*val file = FileDataPart.from("path_to_your_file", name = "image")
-        *//*Fuel.upload("$url${Routes.UploadImage.path}",
-            parameters = Parameters(listOf<>()))
-            .add(file)*//*
+    suspend fun uploadImage(pathImage: String, isErrorShown: Boolean = false): Image? {
 
+        val file = FileDataPart.from(pathImage, name = "file")
+        val jsonObject = requestUploadImage(file, isErrorShown)
 
-        Fuel.upload(path = "$url${Routes.UploadImage.path}", method = Method.POST)
-//            .header(TaggunConstants.taggunHeader(taggunApiKey))
-            .dataParts { _, _ -> listOf(DataPart(file, "file", "image/jpeg")) }
-            .add(file)
-            .responseString { request, response, result ->
-                result.fold({ result ->
-                    Timber.i("API Handshake: $request $response")
+        jsonObject
 
-                    val jsonObject = JSONObject(result)
-                    utils.variable.token = jsonObject.optString("Token")
-                    Timber.i("API new token: ${utils.variable.token}")
-                    cashTime = Date().time.toInt()
-                    parser.userData(jsonObject)
-                    completion.invoke()
+        return jsonObject?.parseImage()
+    }
 
-                },{ error ->
-                    Timber.e("${error.response.responseMessage}")
-                })
+    private suspend fun requestUploadImage(
+        file: DataPart,
+        isErrorShown: Boolean
+    ): JSONObject? {
+        return withContext(Dispatchers.Default) {
+            val (request, response, result) =
+                Fuel.upload(
+                    path = "http://195.133.49.104${Routes.UploadImage.path}",
+                    method = Method.POST
+                )
+                    .add(file)
+                    .responseString()
 
-            }*/
+            Timber.i("API UploadImage:\n $request \n $response")
+
+            result.fold({ success ->
+                val json = JSONObject(success)
+
+                val error = json.optString("error", "")
+                if (error.isNotEmpty()) {
+                    Timber.e("$error")
+                    if (isErrorShown) {
+                        alertManager.single("Ошибка", "$error")
+                    }
+                    null
+                } else {
+                    json
+                }
+            }, { error ->
+                Timber.e("${error.response.responseMessage}")
+                null
+            })
+        }
     }
 
 

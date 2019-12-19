@@ -1,51 +1,33 @@
 package com.ageone.zenit.Modules.Auth.rows
 
 import android.graphics.Color
+import android.text.InputType
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.ageone.zenit.External.Base.Button.BaseButton
 import com.ageone.zenit.External.Base.RecyclerView.BaseViewHolder
 import com.ageone.zenit.External.Base.TextView.BaseTextView
-import com.ageone.zenit.External.Base.View.BaseView
 import yummypets.com.stevia.*
 
 class AuthButtonViewHolder(val constraintLayout: ConstraintLayout) : BaseViewHolder(constraintLayout) {
 
-    val buttonBackViewSignIn by lazy {
-        val view = BaseView()
-        view.backgroundColor = Color.parseColor("#00ACEB")
-        view.cornerRadius = 6.dp
-        view.initialize()
-        view
+    val buttonAuth by lazy {
+        val button = BaseButton()
+        button.setBackgroundColor(Color.parseColor("#00ACEB"))
+        button.textColor = Color.WHITE
+        button.textSize = 20F
+        button.cornerRadius = 16.dp
+        button.text = "Войти"
+        button.inputType = InputType.TYPE_TEXT_VARIATION_NORMAL
+        button
     }
 
-    val textViewSignIn by lazy {
-        val textView = BaseTextView()
-        textView.textColor = Color.WHITE
-        textView.textSize = 20F
-        textView
-    }
-
+    //если сделать этот textView в отдельном вьюхолдере, то он либо выше, либо ниже кнопок
     val textViewPassword by lazy {
         val textView = BaseTextView()
         textView.textColor = Color.parseColor("#BBBCBC")
         textView.textSize = 13F
         textView
     }
-
-    val buttonBackViewRegistration by lazy {
-        val view = BaseView()
-        view.backgroundColor = Color.parseColor("#00ACEB")
-        view.cornerRadius = 6.dp
-        view.initialize()
-        view
-    }
-
-    val textViewRegistration by lazy {
-        val textView = BaseTextView()
-        textView.textColor = Color.WHITE
-        textView.textSize = 20F
-        textView
-    }
-
 
     init {
 
@@ -56,40 +38,22 @@ class AuthButtonViewHolder(val constraintLayout: ConstraintLayout) : BaseViewHol
 
 fun AuthButtonViewHolder.renderUI() {
     constraintLayout.subviews(
-        buttonBackViewSignIn,
-        textViewSignIn,
-        textViewPassword,
-        buttonBackViewRegistration,
-        textViewRegistration
+        buttonAuth,
+        textViewPassword
     )
 
-    buttonBackViewSignIn
+    buttonAuth
         .constrainTopToTopOf(constraintLayout,27)
         .fillHorizontally(16)
         .height(50)
 
-    textViewSignIn
-        .constrainCenterXToCenterXOf(buttonBackViewSignIn)
-        .constrainCenterYToCenterYOf(buttonBackViewSignIn)
-
     textViewPassword
-        .constrainTopToBottomOf(buttonBackViewSignIn,18)
+        .constrainTopToBottomOf(buttonAuth, 18)
         .constrainCenterXToCenterXOf(constraintLayout)
-
-    buttonBackViewRegistration
-        .constrainTopToBottomOf(textViewPassword,29)
-        .fillHorizontally(16)
-        .height(50)
-
-    textViewRegistration
-        .constrainCenterXToCenterXOf(buttonBackViewRegistration)
-        .constrainCenterYToCenterYOf(buttonBackViewRegistration)
 }
 
-fun AuthButtonViewHolder.initialize() {
+fun AuthButtonViewHolder.initialize(text: String) {
+    buttonAuth.text = text
 
-    textViewSignIn.text = "Войти"
     textViewPassword.text = "Забыли пароль?"
-    textViewRegistration.text = "Зарегистрироваться"
-
 }

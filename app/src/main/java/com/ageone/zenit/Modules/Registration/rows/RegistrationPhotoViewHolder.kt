@@ -1,10 +1,6 @@
 package com.ageone.zenit.Modules.Registration.rows
 
 import android.graphics.Color
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
-import android.view.Gravity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.ageone.zenit.External.Base.ImageView.BaseImageView
 import com.ageone.zenit.External.Base.RecyclerView.BaseViewHolder
@@ -39,29 +35,6 @@ class RegistrationPhotoViewHolder(val constraintLayout: ConstraintLayout) :
         imageView
     }
 
-    val buttonBackViewRegistration by lazy {
-        val view = BaseView()
-        view.backgroundColor = Color.parseColor("#00ACEB")
-        view.cornerRadius = 6.dp
-        view.initialize()
-        view
-    }
-
-    val textViewRegistration by lazy {
-        val textView = BaseTextView()
-        textView.textColor = Color.WHITE
-        textView.textSize = 20F
-        textView
-    }
-
-    val textViewConvention by lazy {
-        val textView = BaseTextView()
-        textView.gravity = Gravity.CENTER
-        textView.textSize = 13F
-        textView.textColor = Color.parseColor("#A4A4A4")
-        textView
-    }
-
     init {
 
         renderUI()
@@ -72,11 +45,9 @@ class RegistrationPhotoViewHolder(val constraintLayout: ConstraintLayout) :
 fun RegistrationPhotoViewHolder.renderUI() {
     constraintLayout.subviews(
         textViewLoad,
-        viewPhoto,
-        imageViewPhoto,
-        buttonBackViewRegistration,
-        textViewRegistration,
-        textViewConvention
+        viewPhoto.subviews(
+            imageViewPhoto
+        )
     )
 
     textViewLoad
@@ -94,35 +65,11 @@ fun RegistrationPhotoViewHolder.renderUI() {
         .constrainCenterYToCenterYOf(viewPhoto)
         .height(24)
         .width(24)
-
-    buttonBackViewRegistration
-        .constrainTopToBottomOf(viewPhoto,28)
-        .fillHorizontally(16)
-        .height(53)
-
-    textViewRegistration
-        .constrainCenterXToCenterXOf(buttonBackViewRegistration)
-        .constrainCenterYToCenterYOf(buttonBackViewRegistration)
-
-    textViewConvention
-        .constrainTopToBottomOf(buttonBackViewRegistration, 19)
-        .constrainCenterXToCenterXOf(constraintLayout)
 }
 
 fun RegistrationPhotoViewHolder.initialize() {
 
     textViewLoad.text = "Загрузить фото"
-    textViewRegistration.text = "Зарегистрироваться"
-
-    val text = "Нажимая на кнопку \"Зарегистрироваться\", я\n соглашаюсь на обработку\n"
-    val declaration = "персональных данных"
-
-    val spannableContent = SpannableString(text + declaration)
-    spannableContent.setSpan(
-        ForegroundColorSpan(Color.parseColor("#007aff")),
-        text.length,  text.length + declaration.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-
-    textViewConvention.text = spannableContent
 
     addImageFromGlide(imageViewPhoto,R.drawable.ic_photo)
 }

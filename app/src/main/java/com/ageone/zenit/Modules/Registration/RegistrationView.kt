@@ -87,8 +87,9 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
         private val TextInputType = 1
         private val ActionTextType = 3
         private val PhotoType = 4
+        private val ButtonType = 5
 
-        override fun getItemCount() = 17//viewModel.realmData.size
+        override fun getItemCount() = 18//viewModel.realmData.size
 
         override fun getItemViewType(position: Int): Int = when (position) {
             0 -> TitleType
@@ -96,6 +97,7 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
             13 -> ActionTextType
             14,15 -> TextInputType
             16 -> PhotoType
+            17 -> ButtonType
             else -> -1
         }
 
@@ -119,6 +121,9 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
                 }
                 PhotoType -> {
                     RegistrationPhotoViewHolder(layout)
+                }
+                ButtonType -> {
+                    RegistrationButtonViewHolder(layout)
                 }
                 else -> {
                     BaseViewHolder(layout)
@@ -229,6 +234,9 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
                     }
                 }
                 is RegistrationPhotoViewHolder -> {
+                    holder.initialize()
+                }
+                is RegistrationButtonViewHolder -> {
                     holder.initialize()
                     holder.textViewConvention.setOnClickListener {
                         intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=QH2-TGUlwu4"))

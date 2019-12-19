@@ -61,6 +61,8 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
         bodyTable.adapter = viewAdapter
 //        bodyTable.overScrollMode = View.OVER_SCROLL_NEVER
 
+        bodyTable.setItemViewCacheSize(17)
+
         imageViewBackground.setBackgroundResource(R.drawable.back_lion)
         renderUIO()
         bindUI()
@@ -84,16 +86,15 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
         private val TitleType = 0
         private val TextInputType = 1
         private val ActionTextType = 3
-        private val PlaceTextInputType = 4
-        private val PhotoType = 5
+        private val PhotoType = 4
 
         override fun getItemCount() = 17//viewModel.realmData.size
 
         override fun getItemViewType(position: Int): Int = when (position) {
             0 -> TitleType
-            1,2,3,4,5,6,7  -> TextInputType
+            in 1..12  -> TextInputType
             13 -> ActionTextType
-            8,9,10,11,12,14,15 -> PlaceTextInputType
+            14,15 -> TextInputType
             16 -> PhotoType
             else -> -1
         }
@@ -115,9 +116,6 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
                 }
                 ActionTextType -> {
                     RegistrationActionTextViewHolder(layout)
-                }
-                PlaceTextInputType -> {
-                    RegistrationPlaceTextInputViewHolder(layout)
                 }
                 PhotoType -> {
                     RegistrationPhotoViewHolder(layout)
@@ -184,17 +182,6 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
                         7 -> {
                             holder.initialize("Email", InputEditTextType.EMAIL)
                         }
-                    }
-                }
-                is RegistrationActionTextViewHolder -> {
-                    holder.initialize()
-                    holder.textViewAction.setOnClickListener {
-                        intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=QH2-TGUlwu4"))
-                        currentActivity?.startActivity(intent)
-                    }
-                }
-                is RegistrationPlaceTextInputViewHolder -> {
-                    when(position) {
                         8 -> {
                             holder.initialize("Номер телефона", InputEditTextType.PHONE)
                         }
@@ -203,7 +190,7 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
                         }
                         10 -> {
                             holder.initialize("Кем и когда выдан", InputEditTextType.TEXT)
-                            holder.textInputPlace.editText?.maxLines = 3
+                            holder.textInputRegistration.editText?.maxLines = 3
                         }
                         11 -> {
                             holder.initialize("СНИЛС", InputEditTextType.NUMERIC)
@@ -216,9 +203,9 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
                         }
                         15 -> {
                             holder.initialize("Размер куртки", InputEditTextType.TEXT)
-                            innerContent.dismissFocus(holder.textInputPlace.editText)
+                            innerContent.dismissFocus(holder.textInputRegistration.editText)
 
-                            holder.textInputPlace.editText?.setOnTouchListener { v, event ->
+                            holder.textInputRegistration.editText?.setOnTouchListener { v, event ->
                                 if(event.action == MotionEvent.ACTION_DOWN) {
 
                                     Handler().postDelayed({
@@ -227,11 +214,18 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
 
                                     val sizeVariants = arrayOf("S", "M", "L", "XL", "XXL")
                                     alertManager.list("Размер куртки", sizeVariants) { _, index ->
-                                        holder.textInputPlace.editText?.setText(sizeVariants[index])}
+                                        holder.textInputRegistration.editText?.setText(sizeVariants[index])}
                                 }
                                 false
                             }
                         }
+                    }
+                }
+                is RegistrationActionTextViewHolder -> {
+                    holder.initialize()
+                    holder.textViewAction.setOnClickListener {
+                        intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=QH2-TGUlwu4"))
+                        currentActivity?.startActivity(intent)
                     }
                 }
                 is RegistrationPhotoViewHolder -> {

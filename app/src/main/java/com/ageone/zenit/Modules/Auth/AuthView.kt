@@ -17,7 +17,6 @@ import com.ageone.zenit.External.Libraries.Alert.alertManager
 import com.ageone.zenit.External.Libraries.Alert.single
 import com.ageone.zenit.Models.User.user
 import com.ageone.zenit.Modules.Auth.rows.AuthButtonViewHolder
-import com.ageone.zenit.Modules.Auth.rows.AuthPasswordTextViewHolder
 import com.ageone.zenit.Modules.Auth.rows.AuthTextInputViewHolder
 import com.ageone.zenit.Modules.Auth.rows.initialize
 import com.ageone.zenit.R
@@ -134,8 +133,9 @@ class AuthView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMod
                             holder.initialize("Email", InputEditTextType.EMAIL)
                         }
                         1 -> {
-                            holder.textInputAuth.constrainTopToTopOf(holder.constraintLayout,25)
                             holder.initialize("Пароль", InputEditTextType.PASSWORD)
+                            holder.textInputAuth.constrainTopToTopOf(holder.constraintLayout,25)
+
                         }
                     }
 

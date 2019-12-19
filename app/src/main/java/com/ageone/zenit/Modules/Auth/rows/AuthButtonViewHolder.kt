@@ -16,12 +16,11 @@ class AuthButtonViewHolder(val constraintLayout: ConstraintLayout) : BaseViewHol
         button.textColor = Color.WHITE
         button.textSize = 20F
         button.cornerRadius = 16.dp
-        button.text = "Войти"
         button.inputType = InputType.TYPE_TEXT_VARIATION_NORMAL
         button
     }
 
-    //если сделать этот textView в отдельном вьюхолдере, то он либо выше, либо ниже кнопок
+    //если сделать этот textView в отдельном вьюхолдере, то он либо выше, либо ниже кнопок. И да, это костыльно
     val textViewPassword by lazy {
         val textView = BaseTextView()
         textView.textColor = Color.parseColor("#BBBCBC")

@@ -11,6 +11,7 @@ import com.ageone.zenit.External.Base.RecyclerView.BaseViewHolder
 import com.ageone.zenit.External.InitModuleUI
 import com.ageone.zenit.External.Libraries.Alert.alertManager
 import com.ageone.zenit.External.Libraries.Alert.single
+import com.ageone.zenit.Models.User.user
 import com.ageone.zenit.Modules.Auth.rows.AuthButtonViewHolder
 import com.ageone.zenit.Modules.Auth.rows.AuthTextInputViewHolder
 import com.ageone.zenit.Modules.Auth.rows.initialize
@@ -117,8 +118,16 @@ class AuthView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMod
                     holder.buttonBackViewRegistration.setOnClickListener {
                         emitEvent?.invoke(AuthViewModel.EventType.OnRegistrationPressed.name)
                     }
+                    holder.buttonBackViewSignIn.setOnClickListener {
+                        user.isAuthorized = true //todo: delete after add server
+                        emitEvent?.invoke(AuthViewModel.EventType.OnEnterPressed.name)
+                    }
                     holder.textViewPassword.setOnClickListener {
-                        alertManager.single("","На вашу почту отправлен\nновый пароль",R.drawable.ic_lock,true,"Ok" ) {_,index -> }
+                        alertManager.single("На вашу почту отправлен новый пароль",
+                            "",
+                            R.drawable.ic_lock,
+                            true,
+                            "Ok" ) {_,index -> }
                     }
                 }
             }

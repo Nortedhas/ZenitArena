@@ -84,8 +84,8 @@ object TabBar {
     private fun createStackItem() {
         items = arrayListOf(
             AHBottomNavigationItem("Новости", R.drawable.ic_lion),
-            AHBottomNavigationItem("Сообщения", R.drawable.ic_messages),
-            AHBottomNavigationItem("События", R.drawable.ic_events),
+            AHBottomNavigationItem("Чаты", R.drawable.ic_messages),
+            AHBottomNavigationItem("События", R.drawable.ic_messages),
             AHBottomNavigationItem("Статус", R.drawable.ic_status),
             AHBottomNavigationItem("Профиль", R.drawable.ic_profile)
         )

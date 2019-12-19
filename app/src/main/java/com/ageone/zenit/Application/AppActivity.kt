@@ -1,33 +1,28 @@
 package com.ageone.zenit.Application
 
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
+import android.database.Cursor
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.Toast
-import com.ageone.zenit.Application.Coordinator.Router.TabBar.Stack
 import com.ageone.zenit.External.Base.Activity.BaseActivity
 import com.ageone.zenit.External.Extensions.Activity.*
 import com.ageone.zenit.External.Extensions.FlowCoordinator.clearFlowStack
-import com.ageone.zenit.External.Extensions.FlowCoordinator.logout
-import com.ageone.zenit.External.HTTP.update
-import com.ageone.zenit.External.Utils.Validation.KeyParameterValidation
-import com.ageone.zenit.External.Utils.Validation.isValidUser
+import com.ageone.zenit.External.RxBus.RxBus
+import com.ageone.zenit.Models.RxEvent
 import com.ageone.zenit.Models.User.user
 import com.ageone.zenit.R
-import com.ageone.zenit.SCAG.DataBase
-import com.github.kittinunf.fuel.core.FuelManager
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.iid.FirebaseInstanceId
-import com.swarmnyc.promisekt.Promise
 import kotlinx.coroutines.*
-import timber.log.Timber
 
+
+const val REQUEST_GET_PHOTO = 5
 class AppActivity: BaseActivity() {
     var mGoogleSignInClient: GoogleSignInClient? = null
 
@@ -56,12 +51,7 @@ class AppActivity: BaseActivity() {
         // MARK: PERMISSIONS
 
         addStoragePermissions()
-        addLocationPermissions()
         verifyPermissions {
-            if (hasPermissions(PERMISSIONS_LOCATION)) {
-                user.permission.geo = true
-                setLocationUpdates(1000, 1000)
-            }
 
         }
 
@@ -129,5 +119,38 @@ class AppActivity: BaseActivity() {
                 }
             }
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            REQUEST_GET_PHOTO -> {
+                data?.let { data ->
+                    GlobalScope.launch(Dispatchers.Main){
+                        val image = api.uploadImage(data.getPath())
+                        image ?: return@launch
+                        RxBus.publish(RxEvent.EventLoadImage(image))
+                    }
+                }
+
+            }
+        }
+    }
+
+    private fun Intent.getPath(): String {
+        val selectedImage: Uri = data
+        val filePathColumn =
+            arrayOf(MediaStore.Images.Media.DATA)
+
+        val cursor: Cursor = contentResolver.query(
+            selectedImage,
+            filePathColumn, null, null, null
+        )
+        cursor.moveToFirst()
+
+        val columnIndex: Int = cursor.getColumnIndex(filePathColumn[0])
+        val picturePath: String = cursor.getString(columnIndex)
+        cursor.close()
+        return picturePath
     }
 }

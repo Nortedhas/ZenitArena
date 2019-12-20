@@ -9,10 +9,15 @@ import kotlin.properties.Delegates
 
 
 class RxData {
-
+    var answer: String by Delegates.observable("") { property, oldValue, newValue ->
+        if(newValue != oldValue) {
+            RxBus.publish(RxEvent.EventChangeAnswer())
+        }
+    }
 }
 
 class RxEvent {
     class EventChangeAddress
     data class EventLoadImage(val loadedImage: Image)
+    class EventChangeAnswer
 }

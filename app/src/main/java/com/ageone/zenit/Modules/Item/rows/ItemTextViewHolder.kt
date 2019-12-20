@@ -18,6 +18,7 @@ class ItemTextViewHolder(val constraintLayout: ConstraintLayout) :
     val imageViewItem by lazy {
         val imageView = BaseImageView()
         imageView.backgroundColor = Color.TRANSPARENT
+        imageView.initialize()
         imageView
     }
 
@@ -25,6 +26,7 @@ class ItemTextViewHolder(val constraintLayout: ConstraintLayout) :
         val textView = BaseTextView()
         textView.textSize = 14F
         textView.textColor = Color.parseColor("#747480")
+        textView.initialize()
         textView
     }
 
@@ -34,6 +36,7 @@ class ItemTextViewHolder(val constraintLayout: ConstraintLayout) :
         textView.typeface = Typeface.DEFAULT_BOLD
         textView.textColor = Color.BLACK
         textView.maxLines = 1
+        textView.initialize()
         textView
     }
 
@@ -41,6 +44,7 @@ class ItemTextViewHolder(val constraintLayout: ConstraintLayout) :
         val textView = BaseTextView()
         textView.textSize = 14F
         textView.textColor = Color.BLACK
+        textView.initialize()
         textView
     }
 

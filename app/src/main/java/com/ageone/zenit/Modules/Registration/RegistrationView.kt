@@ -30,6 +30,7 @@ import com.ageone.zenit.Modules.Registration.rows.*
 import com.ageone.zenit.R
 import com.ageone.zenit.SCAG.Image
 import com.ageone.zenit.UIComponents.ViewHolders.ButtonViewHolder
+import com.ageone.zenit.UIComponents.ViewHolders.TextInputViewHolder
 import com.ageone.zenit.UIComponents.ViewHolders.TitleWithLogoViewHolder
 import com.ageone.zenit.UIComponents.ViewHolders.initialize
 import yummypets.com.stevia.*
@@ -124,7 +125,7 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
                     TitleWithLogoViewHolder(layout)
                 }
                 TextInputType -> {
-                    RegistrationTextInputViewHolder(layout)
+                    TextInputViewHolder(layout)
                 }
                 ActionTextType -> {
                     RegistrationActionTextViewHolder(layout)
@@ -152,31 +153,31 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
                 is TitleWithLogoViewHolder -> {
                     holder.initialize("РЕГИСТРАЦИЯ")
                 }
-                is RegistrationTextInputViewHolder -> {
+                is TextInputViewHolder -> {
                     when(position) {
                         1 -> {
                             holder.initialize("Фамилия", InputEditTextType.TEXT)
-                            holder.textInputRegistration.editText?.doOnTextChanged { text, start, count, after ->
+                            holder.textInput.editText?.doOnTextChanged { text, start, count, after ->
                                 viewModel.model.secondName = text.toString()
                             }
                         }
                         2 -> {
                             holder.initialize("Имя", InputEditTextType.TEXT)
-                            holder.textInputRegistration.editText?.doOnTextChanged { text, start, count, after ->
+                            holder.textInput.editText?.doOnTextChanged { text, start, count, after ->
                                 viewModel.model.firstName = text.toString()
                             }
                         }
                         3 -> {
                             holder.initialize("Отчество", InputEditTextType.TEXT)
-                            holder.textInputRegistration.editText?.doOnTextChanged { text, start, count, after ->
+                            holder.textInput.editText?.doOnTextChanged { text, start, count, after ->
                                 viewModel.model.lastName = text.toString()
                             }
                         }
                         4 -> {
                             holder.initialize("Ваш пол", InputEditTextType.TEXT)
-                            innerContent.dismissFocus(holder.textInputRegistration.editText)
+                            innerContent.dismissFocus(holder.textInput.editText)
 
-                            holder.textInputRegistration.editText?.setOnTouchListener { v, event ->
+                            holder.textInput.editText?.setOnTouchListener { v, event ->
                                 if(event.action == MotionEvent.ACTION_DOWN) {
                                     Handler().postDelayed({
                                         currentActivity?.hideKeyboard()
@@ -184,88 +185,88 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
 
                                     val genderVariant = arrayOf("Женский", "Мужской")
                                     alertManager.list("Ваш пол", genderVariant) { _, index ->
-                                        holder.textInputRegistration.editText?.setText(genderVariant[index])
+                                        holder.textInput.editText?.setText(genderVariant[index])
                                     }
                                 }
                                 false
                             }
 
-                            holder.textInputRegistration.editText?.doOnTextChanged { text, start, count, after ->
+                            holder.textInput.editText?.doOnTextChanged { text, start, count, after ->
                                 viewModel.model.gender = text.toString()
                             }
                         }
                         5 -> {
                             holder.initialize("Дата рождения", InputEditTextType.TEXT)
-                            innerContent.dismissFocus(holder.textInputRegistration.editText)
+                            innerContent.dismissFocus(holder.textInput.editText)
 
-                            holder.textInputRegistration.editText?.setOnTouchListener{ v, event->
+                            holder.textInput.editText?.setOnTouchListener{ v, event->
                                 if(event.action == MotionEvent.ACTION_DOWN) {
                                     Handler().postDelayed({
                                         currentActivity?.hideKeyboard()
                                     },300)
-                                    startDatePicker(holder.textInputRegistration)
+                                    startDatePicker(holder.textInput)
                                 }
                                 false
                             }
-                            holder.textInputRegistration.editText?.doOnTextChanged { text, start, count, after ->
+                            holder.textInput.editText?.doOnTextChanged { text, start, count, after ->
                                 val date= SimpleDateFormat("dd.MM.yyyy").parse(text.toString())
                                 viewModel.model.birthDate = TimeUnit.MILLISECONDS.toSeconds(date.time).toInt()
                             }
                         }
                         6 -> {
                             holder.initialize("Место рождения", InputEditTextType.TEXT)
-                            holder.textInputRegistration.editText?.doOnTextChanged { text, start, count, after ->
+                            holder.textInput.editText?.doOnTextChanged { text, start, count, after ->
                                 viewModel.model.birthPlace = text.toString()
                             }
                         }
                         7 -> {
                             holder.initialize("Email", InputEditTextType.EMAIL)
-                            holder.textInputRegistration.editText?.doOnTextChanged { text, start, count, after ->
+                            holder.textInput.editText?.doOnTextChanged { text, start, count, after ->
                                 viewModel.model.email = text.toString()
                             }
                         }
                         8 -> {
                             holder.initialize("Номер телефона", InputEditTextType.PHONE)
-                            holder.textInputRegistration.editText?.doOnTextChanged { text, start, count, after ->
+                            holder.textInput.editText?.doOnTextChanged { text, start, count, after ->
                                 viewModel.model.phone = text.toString()
                             }
                         }
                         9 -> {
                             holder.initialize("Серия и номер паспорта", InputEditTextType.NUMERIC)
-                            holder.textInputRegistration.editText?.doOnTextChanged { text, start, count, after ->
+                            holder.textInput.editText?.doOnTextChanged { text, start, count, after ->
                                 viewModel.model.passportNum = text.toString().toInt()
                             }
                         }
                         10 -> {
                             holder.initialize("Кем и когда выдан", InputEditTextType.TEXT)
-                            holder.textInputRegistration.editText?.maxLines = 3
-                            holder.textInputRegistration.editText?.doOnTextChanged { text, start, count, after ->
+                            holder.textInput.editText?.maxLines = 3
+                            holder.textInput.editText?.doOnTextChanged { text, start, count, after ->
                                 viewModel.model.passportIssue = text.toString()
                             }
                         }
                         11 -> {
                             holder.initialize("СНИЛС", InputEditTextType.NUMERIC)
-                            holder.textInputRegistration.editText?.doOnTextChanged { text, start, count, after ->
+                            holder.textInput.editText?.doOnTextChanged { text, start, count, after ->
                                 viewModel.model.snilsNum = text.toString().toInt()
                             }
                         }
                         12 -> {
                             holder.initialize("ИНН", InputEditTextType.NUMERIC)
-                            holder.textInputRegistration.editText?.doOnTextChanged { text, start, count, after ->
+                            holder.textInput.editText?.doOnTextChanged { text, start, count, after ->
                                 viewModel.model.innNum = text.toString().toInt()
                             }
                         }
                         14 -> {
                             holder.initialize("Место работы/учёбы", InputEditTextType.TEXT)
-                            holder.textInputRegistration.editText?.doOnTextChanged { text, start, count, after ->
+                            holder.textInput.editText?.doOnTextChanged { text, start, count, after ->
                                 viewModel.model.careerPlace = text.toString()
                             }
                         }
                         15 -> {
                             holder.initialize("Размер куртки", InputEditTextType.TEXT)
-                            innerContent.dismissFocus(holder.textInputRegistration.editText)
+                            innerContent.dismissFocus(holder.textInput.editText)
 
-                            holder.textInputRegistration.editText?.setOnTouchListener { v, event ->
+                            holder.textInput.editText?.setOnTouchListener { v, event ->
                                 if(event.action == MotionEvent.ACTION_DOWN) {
 
                                     Handler().postDelayed({
@@ -274,11 +275,11 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
 
                                     val sizeVariants = arrayOf("S", "M", "L", "XL", "XXL")
                                     alertManager.list("Размер куртки", sizeVariants) { _, index ->
-                                        holder.textInputRegistration.editText?.setText(sizeVariants[index])}
+                                        holder.textInput.editText?.setText(sizeVariants[index])}
                                 }
                                 false
                             }
-                            holder.textInputRegistration.editText?.doOnTextChanged { text, start, count, after ->
+                            holder.textInput.editText?.doOnTextChanged { text, start, count, after ->
                                 viewModel.model.jacketSize = text.toString()
                             }
                         }
@@ -293,14 +294,15 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
                 }
 
                 is RegistrationPhotoViewHolder -> {
-                    holder.initialize(currentLoadImage?.preview)
-                    holder.imageViewPhoto.setOnClickListener {
+                    fun openGallery() {
                         intent = Intent(Intent.ACTION_PICK)
-                        // intent.addCategory(Intent.CATEGORY_OPENABLE)
                         intent.type = "image/*"
                         currentActivity?.startActivityForResult(
                             Intent.createChooser(intent, "Select Picture"), REQUEST_GET_PHOTO)
                     }
+                    holder.initialize(currentLoadImage?.preview)
+                    holder.imageViewPhoto.setOnClickListener { openGallery() }
+                    holder.textViewLoad.setOnClickListener { openGallery() }
                 }
 
                 is ButtonViewHolder -> {
@@ -342,7 +344,8 @@ fun RegistrationView.startDatePicker(textInput: BaseTextInputLayout) {
     val month = calendar.get(Calendar.MONTH)
     val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-    val datePickerDialog = DatePickerDialog(currentActivity, R.style.TimePickerTheme,DatePickerDialog.OnDateSetListener { view, year, month, day ->
+    val datePickerDialog = DatePickerDialog(currentActivity, R.style.TimePickerTheme,
+        DatePickerDialog.OnDateSetListener { view, year, month, day ->
         calendar.set(Calendar.YEAR, year)
         calendar.set(Calendar.MONTH, month)
         calendar.set(Calendar.DAY_OF_MONTH, day)

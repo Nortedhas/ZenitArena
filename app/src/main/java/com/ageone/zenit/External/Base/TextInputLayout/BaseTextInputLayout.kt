@@ -1,25 +1,27 @@
 package com.ageone.zenit.External.Base.TextInputLayout
 
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Handler
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.text.method.DigitsKeyListener
 import android.view.KeyEvent
+import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.core.view.updateMargins
-import com.ageone.zenit.R
 import com.ageone.zenit.Application.currentActivity
 import com.ageone.zenit.External.Base.EditText.limitLength
 import com.ageone.zenit.External.Base.EditText.phoneMask
+import com.ageone.zenit.R
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import yummypets.com.stevia.dp
 import yummypets.com.stevia.style
-import yummypets.com.stevia.textColor
 import kotlin.properties.Delegates
+
 
 class BaseTextInputLayout: TextInputLayout(currentActivity) {
 
@@ -58,6 +60,13 @@ class BaseTextInputLayout: TextInputLayout(currentActivity) {
             }
         }
 
+    }
+
+    override fun addView(child: View, index: Int, params: ViewGroup.LayoutParams?) {
+        if (child is EditText) {
+            (child as EditText).textSize = 14f
+        }
+        super.addView(child, index, params)
     }
 
     fun setToggleForPassword(colorToggled: Int) {

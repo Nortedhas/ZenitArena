@@ -14,9 +14,9 @@ import com.ageone.zenit.External.Libraries.Alert.alertManager
 import com.ageone.zenit.External.Libraries.Alert.single
 import com.ageone.zenit.Models.User.user
 import com.ageone.zenit.Modules.Auth.rows.AuthForgotPasswordViewHolder
-import com.ageone.zenit.UIComponents.ViewHolders.ButtonViewHolder
-import com.ageone.zenit.Modules.Auth.rows.AuthTextInputViewHolder
 import com.ageone.zenit.Modules.Auth.rows.initialize
+import com.ageone.zenit.UIComponents.ViewHolders.ButtonViewHolder
+import com.ageone.zenit.UIComponents.ViewHolders.TextInputViewHolder
 import com.ageone.zenit.UIComponents.ViewHolders.initialize
 import com.ageone.zenit.R
 import com.ageone.zenit.UIComponents.ViewHolders.TitleWithLogoViewHolder
@@ -100,7 +100,9 @@ class AuthView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMod
                     TitleWithLogoViewHolder(layout)
                 }
                 TextInputType -> {
-                    AuthTextInputViewHolder(layout)
+                    TextInputViewHolder(
+                        layout
+                    )
                 }
                 ButtonType -> {
                     ButtonViewHolder(
@@ -127,14 +129,14 @@ class AuthView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMod
                     holder.initialize("ДОБРО ПОЖАЛОВАТЬ!")
                 }
 
-                is AuthTextInputViewHolder -> {
+                is TextInputViewHolder -> {
                     when(position) {
                         1 -> {
                             holder.initialize("Email", InputEditTextType.EMAIL)
                         }
                         2 -> {
                             holder.initialize("Пароль", InputEditTextType.PASSWORD)
-                            holder.textInputAuth.constrainTopToTopOf(holder.constraintLayout,25)
+                            holder.textInput.constrainTopToTopOf(holder.constraintLayout,25)
 
                         }
                     }

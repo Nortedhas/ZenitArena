@@ -47,7 +47,7 @@ fun RegistrationActionTextViewHolder.initialize() {
 
     val spannableContent = SpannableString(text + declaration)
     spannableContent.setSpan(
-        ForegroundColorSpan(Color.parseColor("#007aff")),
+        ForegroundColorSpan(Color.parseColor("#00ACEB")),
         text.length,  text.length + declaration.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
 
     textViewAction.text = spannableContent

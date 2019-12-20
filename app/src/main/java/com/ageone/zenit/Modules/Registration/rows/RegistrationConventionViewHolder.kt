@@ -15,18 +15,6 @@ import yummypets.com.stevia.*
 class RegistrationConventionViewHolder(val constraintLayout: ConstraintLayout) :
     BaseViewHolder(constraintLayout) {
 
-    /*val buttonRegistration by lazy {
-        val button = BaseButton()
-        button.backgroundColor = Color.parseColor("#00ACEB")
-        button.textColor = Color.WHITE
-        button.textSize = 20F
-        button.cornerRadius = 6.dp
-        button.text = "Зарегистрироваться"
-        button.inputType = InputType.TYPE_TEXT_VARIATION_NORMAL
-        button.initialize()
-        button
-    }*/
-
     val textViewConvention by lazy {
         val textView = BaseTextView()
         textView.gravity = Gravity.CENTER
@@ -44,14 +32,8 @@ class RegistrationConventionViewHolder(val constraintLayout: ConstraintLayout) :
 
 fun RegistrationConventionViewHolder.renderUI() {
     constraintLayout.subviews(
-//        buttonRegistration,
         textViewConvention
     )
-
-    /*buttonRegistration
-        .constrainTopToTopOf(constraintLayout,28)
-        .fillHorizontally(16)
-        .height(53)*/
 
     textViewConvention
         .constrainTopToTopOf(constraintLayout, 16)
@@ -64,7 +46,7 @@ fun RegistrationConventionViewHolder.initialize() {
 
     val spannableContent = SpannableString(text + declaration)
     spannableContent.setSpan(
-        ForegroundColorSpan(Color.parseColor("#007aff")),
+        ForegroundColorSpan(Color.parseColor("#00ACEB")),
         text.length,  text.length + declaration.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
 
     textViewConvention.text = spannableContent

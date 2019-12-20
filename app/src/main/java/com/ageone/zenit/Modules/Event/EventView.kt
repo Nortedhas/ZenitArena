@@ -116,6 +116,10 @@ class EventView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMo
                         holder.shape.setColor(Color.parseColor("#C6F0FF"))
                         holder.viewLine.backgroundColor = Color.parseColor("#5ED4FF")
                         holder.viewLine.initialize()
+
+                        holder.viewBack.setOnClickListener {
+                            emitEvent?.invoke(EventViewModel.EventType.OnEventPressed.name)
+                        }
                     }
                     holder.initialize(1571511600,text[position])
                 }

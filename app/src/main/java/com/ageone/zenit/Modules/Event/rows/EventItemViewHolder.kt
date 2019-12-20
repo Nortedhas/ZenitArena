@@ -79,6 +79,6 @@ fun EventItemViewHolder.renderUI() {
 }
 
 fun EventItemViewHolder.initialize(date: Int,text: String) {
-    val dateToString = format.format(Date(date.toLong() * 1000))
-    textViewEvent.text = "$dateToString, $text"
+    val date = format.format(Date(date.toLong() * 1000))
+    textViewEvent.text = "$date, $text"
 }

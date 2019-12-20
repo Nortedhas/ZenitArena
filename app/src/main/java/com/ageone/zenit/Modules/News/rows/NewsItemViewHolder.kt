@@ -10,6 +10,7 @@ import com.ageone.zenit.External.Base.TextView.BaseTextView
 import com.ageone.zenit.External.Base.View.BaseView
 import com.ageone.zenit.External.Libraries.Glide.addImageFromGlide
 import yummypets.com.stevia.*
+import com.ageone.zenit.R
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -58,9 +59,16 @@ class NewsItemViewHolder(val constraintLayout: ConstraintLayout) :
         textView
     }
 
+    val imageViewArrow by lazy {
+        val imageView = BaseImageView()
+        imageView.initialize()
+        imageView
+    }
+
     val viewBackContinue by lazy {
         val view = BaseView()
         view.backgroundColor = Color.TRANSPARENT
+        view.initialize()
         view
     }
 
@@ -80,11 +88,13 @@ fun NewsItemViewHolder.renderUI() {
         textViewNewsTitle,
         textViewNews,
         viewBackContinue,
-        textViewContinue
+        textViewContinue,
+        imageViewArrow
+
     )
 
     imageViewNews
-        .constrainTopToTopOf(constraintLayout,15)
+        .constrainTopToTopOf(constraintLayout,16)
         .fillHorizontally(16)
         .height(utils.tools.getActualSizeFromDes(185))
 
@@ -108,8 +118,15 @@ fun NewsItemViewHolder.renderUI() {
 
     textViewContinue
         .constrainTopToBottomOf(textViewNews,2)
+        .constrainRightToLeftOf(imageViewArrow,2)
+
+    imageViewArrow
         .constrainRightToRightOf(constraintLayout,16)
-        .constrainBottomToBottomOf(constraintLayout,2)
+        .constrainTopToBottomOf(textViewNews,8)
+        .height(6)
+        .width(4)
+        .setBackgroundResource(R.drawable.ic_arrow_text)
+
 }
 
 fun NewsItemViewHolder.initialize(image: Int, date: Int,title: String, news: String) {
@@ -120,5 +137,5 @@ fun NewsItemViewHolder.initialize(image: Int, date: Int,title: String, news: Str
     textViewNewsTitle.text = title
     textViewNews.text = news
 
-    textViewContinue.text = "Продолжить >"
+    textViewContinue.text = "Продолжить"
 }

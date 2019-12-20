@@ -6,12 +6,14 @@ import com.ageone.zenit.Application.Coordinator.Flow.FlowCoordinator.MainUIObjec
 import com.ageone.zenit.Application.Coordinator.Router.DataFlow
 import com.ageone.zenit.Application.Coordinator.Router.TabBar.Stack
 import com.ageone.zenit.External.Base.Flow.BaseFlow
-import com.ageone.zenit.External.Base.Module.BaseModule
 import com.ageone.zenit.External.Base.Module.ModuleInterface
 import com.ageone.zenit.External.InitModuleUI
 import com.ageone.zenit.Modules.Event.EventModel
 import com.ageone.zenit.Modules.Event.EventView
 import com.ageone.zenit.Modules.Event.EventViewModel
+import com.ageone.zenit.Modules.EventItem.EventItemModel
+import com.ageone.zenit.Modules.EventItem.EventItemView
+import com.ageone.zenit.Modules.EventItem.EventItemViewModel
 
 import timber.log.Timber
 
@@ -60,21 +62,43 @@ class FlowEvent(previousFlow: BaseFlow? = null) : BaseFlow() {
     }
 
     inner class FlowEventModels {
-        val modelEventModule = EventModel()
+        val modelEvent = EventModel()
+        val modelEventItem = EventItemModel()
     }
 
     fun runModuleEvent() {
         val module = EventView()
 
-        module.viewModel.initialize(models.modelEventModule) { module.reload() }
+        module.viewModel.initialize(models.modelEvent) { module.reload() }
 
         settingsCurrentFlow.isBottomNavigationVisible = true
 
         module.emitEvent = { event ->
             when (EventViewModel.EventType.valueOf(event)) {
+                EventViewModel.EventType.OnEventPressed -> {
+                    runModuleEventItem()
+                }
+            }
+        }
+        push(module)
+    }
+
+    fun runModuleEventItem() {
+        val module = EventItemView(
+            InitModuleUI(
+            isBackPressed = true
+        ))
+
+        module.viewModel.initialize(models.modelEventItem) { module.reload() }
+
+        settingsCurrentFlow.isBottomNavigationVisible = true
+
+        module.emitEvent = { event ->
+            when (EventItemViewModel.EventType.valueOf(event)) {
 
             }
         }
+
         push(module)
     }
 }

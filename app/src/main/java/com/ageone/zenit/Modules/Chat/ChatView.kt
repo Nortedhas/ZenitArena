@@ -3,9 +3,12 @@ package com.ageone.zenit.Modules.Chat
 import android.graphics.Color
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.updatePadding
+import com.ageone.zenit.Application.utils
 import com.ageone.zenit.External.Base.Module.BaseModule
 import com.ageone.zenit.External.Base.RecyclerView.BaseAdapter
 import com.ageone.zenit.External.Base.RecyclerView.BaseViewHolder
+import com.ageone.zenit.External.Base.View.BaseView
 import com.ageone.zenit.External.InitModuleUI
 import com.ageone.zenit.Modules.Chat.rows.ChatMessageViewHolder
 import com.ageone.zenit.Modules.Chat.rows.initialize
@@ -19,13 +22,24 @@ class ChatView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMod
         val viewAdapter = Factory(this)
         viewAdapter
     }
+    
+    val viewSendMessage by lazy {
+        val view = BaseView()
+        view.cornerRadius = 1000.dp
+        view.backgroundColor = Color.parseColor("#F2F2F2")
+        view.borderColor = Color.parseColor("#E4E4E4")
+        view.borderWidth = 1
+        view.initialize()
+    // 	imageView.elevation = 5F.dp
+        view
+    }
 
     init {
 //        viewModel.loadRealmData()
 
-        backgroundFullscreen.setBackgroundResource(R.drawable.base_background)//TODO: set background
+        backgroundFullscreen.setBackgroundColor(Color.WHITE)
 
-        toolbar.title = ""
+        toolbar.title = "Волонтеры камер хранения"
 
         renderToolbar()
 
@@ -98,7 +112,24 @@ class ChatView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMod
 
 fun ChatView.renderUIO() {
 
-    renderBodyTable()
+    innerContent.subviews(
+        bodyTable,
+        viewSendMessage
+    )
+
+    viewSendMessage
+        .fillHorizontally(16)
+        .height(utils.tools.getActualSizeFromDes(42))
+        .constrainBottomToBottomOf(innerContent, 16)
+
+    bodyTable
+        .fillHorizontally()
+        .constrainTopToTopOf(innerContent)
+        .constrainBottomToTopOf(viewSendMessage, 16)
+        .updatePadding(bottom = 24.dp)
+
+    bodyTable
+        .clipToPadding = false
 }
 
 

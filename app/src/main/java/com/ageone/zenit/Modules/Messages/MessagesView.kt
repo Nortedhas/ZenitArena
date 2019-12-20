@@ -1,6 +1,7 @@
 package com.ageone.zenit.Modules.Messages
 
 import android.graphics.Color
+import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.ageone.zenit.External.Base.Module.BaseModule
@@ -9,6 +10,7 @@ import com.ageone.zenit.External.Base.RecyclerView.BaseViewHolder
 import com.ageone.zenit.External.InitModuleUI
 import com.ageone.zenit.Modules.Messages.rows.MessagesChatViewHolder
 import com.ageone.zenit.Modules.Messages.rows.initialize
+import com.ageone.zenit.R
 import yummypets.com.stevia.*
 
 class MessagesView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initModuleUI) {
@@ -31,8 +33,7 @@ class MessagesView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(ini
         renderToolbar()
 
         bodyTable.adapter = viewAdapter
-//        bodyTable.overScrollMode = View.OVER_SCROLL_NEVER
-
+        bodyTable.overScrollMode = View.OVER_SCROLL_NEVER
 
         renderUIO()
         bindUI()
@@ -55,10 +56,10 @@ class MessagesView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(ini
 
         private val MessagesChatType = 0
 
-        override fun getItemCount() = 1//viewModel.realmData.size
+        override fun getItemCount() = 3//viewModel.realmData.size
 
         override fun getItemViewType(position: Int): Int = when (position) {
-            0 -> MessagesChatType
+            in 0..2 -> MessagesChatType
             else -> -1
         }
 
@@ -86,7 +87,15 @@ class MessagesView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(ini
 
             when (holder) {
                 is MessagesChatViewHolder -> {
-                    holder.initialize()
+                    val (icon, title) = when(position) {
+                        1 -> R.drawable.ic_chat_vc to "Чат с ВЦ"
+                        2 -> R.drawable.ic_chat_common to "Общий чат"
+                        else -> R.drawable.ic_chat_func2 to "Волонтеры камер хранения"
+                    }
+                    holder.initialize(icon, title, position == 2, position == 0)
+                    holder.constraintLayout.setOnClickListener {
+                        emitEvent?.invoke(MessagesViewModel.EventType.OnChatPressed.name)
+                    }
                 }
 
             }

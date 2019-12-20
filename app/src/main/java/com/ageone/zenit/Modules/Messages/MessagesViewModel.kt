@@ -8,7 +8,7 @@ class MessagesViewModel : InterfaceViewModel {
     var model = MessagesModel()
 
     enum class EventType {
-
+        OnChatPressed
     }
 
     /*var realmData = listOf<>()

@@ -61,7 +61,7 @@ object TabBar {
 
     val bottomNavigation by lazy {
         val bottomNavigation = AHBottomNavigation(currentActivity)
-        bottomNavigation.setTitleTextSize(30f,30f)
+        bottomNavigation.setTitleTextSize(22f,22f)
         bottomNavigation.defaultBackgroundColor = Color.parseColor("#FEFEFE")//colorIcons
         bottomNavigation.isBehaviorTranslationEnabled = true
         bottomNavigation.accentColor = Color.parseColor("#00ACEB")

@@ -9,6 +9,9 @@ import com.ageone.zenit.External.Base.Flow.BaseFlow
 import com.ageone.zenit.External.Base.Module.BaseModule
 import com.ageone.zenit.External.Base.Module.ModuleInterface
 import com.ageone.zenit.External.InitModuleUI
+import com.ageone.zenit.Modules.Chat.ChatModel
+import com.ageone.zenit.Modules.Chat.ChatView
+import com.ageone.zenit.Modules.Chat.ChatViewModel
 import com.ageone.zenit.Modules.Messages.MessagesView
 import com.ageone.zenit.Modules.Messages.MessagesModel
 import com.ageone.zenit.Modules.Messages.MessagesViewModel
@@ -60,6 +63,7 @@ class FlowMessage(previousFlow: BaseFlow? = null) : BaseFlow() {
 
     inner class FlowMessageModels {
         val modelMessages = MessagesModel()
+        val modelChat = ChatModel()
     }
 
     fun runModuleMessages() {
@@ -71,6 +75,25 @@ class FlowMessage(previousFlow: BaseFlow? = null) : BaseFlow() {
 
         module.emitEvent = { event ->
             when (MessagesViewModel.EventType.valueOf(event)) {
+                MessagesViewModel.EventType.OnChatPressed -> {
+                    runModuleChat()
+                }
+            }
+        }
+        push(module)
+    }
+
+    fun runModuleChat() {
+        val module = ChatView(InitModuleUI(
+            isBackPressed = true,
+            isBottomNavigationVisible = false
+        ))
+        module.viewModel.initialize(models.modelChat) { module.reload() }
+
+        settingsCurrentFlow.isBottomNavigationVisible = false
+
+        module.emitEvent = { event ->
+            when (ChatViewModel.EventType.valueOf(event)) {
 
             }
         }

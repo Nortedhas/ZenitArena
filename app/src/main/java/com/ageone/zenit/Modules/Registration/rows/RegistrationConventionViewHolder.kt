@@ -12,19 +12,20 @@ import com.ageone.zenit.External.Base.RecyclerView.BaseViewHolder
 import com.ageone.zenit.External.Base.TextView.BaseTextView
 import yummypets.com.stevia.*
 
-class RegistrationButtonViewHolder(val constraintLayout: ConstraintLayout) :
+class RegistrationConventionViewHolder(val constraintLayout: ConstraintLayout) :
     BaseViewHolder(constraintLayout) {
 
-    val buttonRegistration by lazy {
+    /*val buttonRegistration by lazy {
         val button = BaseButton()
-        button.setBackgroundColor(Color.parseColor("#00ACEB"))
+        button.backgroundColor = Color.parseColor("#00ACEB")
         button.textColor = Color.WHITE
         button.textSize = 20F
-        button.cornerRadius = 16.dp
+        button.cornerRadius = 6.dp
         button.text = "Зарегистрироваться"
         button.inputType = InputType.TYPE_TEXT_VARIATION_NORMAL
+        button.initialize()
         button
-    }
+    }*/
 
     val textViewConvention by lazy {
         val textView = BaseTextView()
@@ -41,23 +42,23 @@ class RegistrationButtonViewHolder(val constraintLayout: ConstraintLayout) :
 
 }
 
-fun RegistrationButtonViewHolder.renderUI() {
+fun RegistrationConventionViewHolder.renderUI() {
     constraintLayout.subviews(
-        buttonRegistration,
+//        buttonRegistration,
         textViewConvention
     )
 
-    buttonRegistration
+    /*buttonRegistration
         .constrainTopToTopOf(constraintLayout,28)
         .fillHorizontally(16)
-        .height(53)
+        .height(53)*/
 
     textViewConvention
-        .constrainTopToBottomOf(buttonRegistration, 19)
+        .constrainTopToTopOf(constraintLayout, 16)
         .constrainCenterXToCenterXOf(constraintLayout)
 }
 
-fun RegistrationButtonViewHolder.initialize() {
+fun RegistrationConventionViewHolder.initialize() {
     val text = "Нажимая на кнопку \"Зарегистрироваться\", я\n соглашаюсь на обработку\n"
     val declaration = "персональных данных"
 

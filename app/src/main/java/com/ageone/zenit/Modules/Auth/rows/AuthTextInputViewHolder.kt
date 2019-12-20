@@ -16,7 +16,7 @@ class AuthTextInputViewHolder(val constraintLayout: ConstraintLayout) :
         textInput.boxStrokeColor = Color.parseColor("#CBCBCB")
         textInput.setInactiveUnderlineColor(Color.rgb(193, 193, 193))
         textInput.setBoxBackgroundMode(TextInputLayout.BOX_BACKGROUND_OUTLINE)
-        textInput.setBoxCornerRadii(12F,12F,12F,12F)
+        textInput.setBoxCornerRadii(6F,6F,6F,6F)
 
         textInput.editText?.let { editText ->
             editText.textColor = Color.parseColor("#000000")
@@ -40,7 +40,7 @@ fun AuthTextInputViewHolder.renderUI() {
     )
 
     textInputAuth
-        .constrainTopToTopOf(constraintLayout,169)
+        .constrainTopToTopOf(constraintLayout,16)
         .fillHorizontally(16)
         .height(55)
         .setPadding(6.dp,0,0,0)

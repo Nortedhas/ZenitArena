@@ -1,4 +1,4 @@
-package com.ageone.zenit.Modules.Registration.rows
+package com.ageone.zenit.UIComponents.ViewHolders
 
 import android.graphics.Color
 import android.graphics.Typeface
@@ -10,7 +10,7 @@ import com.ageone.zenit.External.Base.TextView.BaseTextView
 import com.ageone.zenit.R
 import yummypets.com.stevia.*
 
-class RegistrationTitleViewHolder(val constraintLayout: ConstraintLayout) : BaseViewHolder(constraintLayout) {
+class TitleWithLogoViewHolder(val constraintLayout: ConstraintLayout) : BaseViewHolder(constraintLayout) {
 
     val imageViewLogo by lazy {
         val imageView = BaseImageView()
@@ -34,7 +34,7 @@ class RegistrationTitleViewHolder(val constraintLayout: ConstraintLayout) : Base
 
 }
 
-fun RegistrationTitleViewHolder.renderUI() {
+fun TitleWithLogoViewHolder.renderUI() {
     constraintLayout.subviews(
         imageViewLogo,
         textViewRegistration
@@ -53,8 +53,8 @@ fun RegistrationTitleViewHolder.renderUI() {
         .constrainCenterXToCenterXOf(constraintLayout)
 }
 
-fun RegistrationTitleViewHolder.initialize() {
-    textViewRegistration.text = "РЕГИСТРАЦИЯ"
+fun TitleWithLogoViewHolder.initialize(title: String) {
+    textViewRegistration.text = title
 
     imageViewLogo.setBackgroundResource(R.drawable.zenit_logo)
 }

@@ -29,7 +29,9 @@ import com.ageone.zenit.Models.RxEvent
 import com.ageone.zenit.Modules.Registration.rows.*
 import com.ageone.zenit.R
 import com.ageone.zenit.SCAG.Image
-import timber.log.Timber
+import com.ageone.zenit.UIComponents.ViewHolders.ButtonViewHolder
+import com.ageone.zenit.UIComponents.ViewHolders.TitleWithLogoViewHolder
+import com.ageone.zenit.UIComponents.ViewHolders.initialize
 import yummypets.com.stevia.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -89,22 +91,24 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
 
     inner class Factory(val rootModule: BaseModule) : BaseAdapter<BaseViewHolder>() {
 
-        private val TitleType = 0
+        private val TitleWithLogoType = 0
         private val TextInputType = 1
         private val ActionTextType = 3
-        private val PlaceTextInputType = 4
-        private val PhotoType = 5
-        private val ButtonType = 6
+        private val PhotoType = 4
+        private val ButtonType = 5
+        private val ConventionType = 6
 
-        override fun getItemCount() = 18//viewModel.realmData.jacketSize
+        override fun getItemCount() = 19//viewModel.realmData.size
 
         override fun getItemViewType(position: Int): Int = when (position) {
-            0 -> TitleType
-            in 1 .. 12  -> TextInputType
+            0 -> TitleWithLogoType
+            in 1..12 -> TextInputType
             13 -> ActionTextType
             14,15 -> TextInputType
             16 -> PhotoType
-            else -> ButtonType
+            17 -> ButtonType
+            18 -> ConventionType
+            else -> -1
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
@@ -116,8 +120,8 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
                 .height(wrapContent)
 
             val holder = when (viewType) {
-                TitleType -> {
-                    RegistrationTitleViewHolder(layout)
+                TitleWithLogoType -> {
+                    TitleWithLogoViewHolder(layout)
                 }
                 TextInputType -> {
                     RegistrationTextInputViewHolder(layout)
@@ -129,7 +133,10 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
                     RegistrationPhotoViewHolder(layout)
                 }
                 ButtonType -> {
-                    RegistrationButtonViewHolder(layout)
+                    ButtonViewHolder(layout)
+                }
+                ConventionType -> {
+                    RegistrationConventionViewHolder(layout)
                 }
                 else -> {
                     BaseViewHolder(layout)
@@ -142,8 +149,8 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
         override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
 
             when (holder) {
-                is RegistrationTitleViewHolder -> {
-                    holder.initialize()
+                is TitleWithLogoViewHolder -> {
+                    holder.initialize("РЕГИСТРАЦИЯ")
                 }
                 is RegistrationTextInputViewHolder -> {
                     when(position) {
@@ -277,12 +284,14 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
                         }
                     }
                 }
+
                 is RegistrationActionTextViewHolder -> {
                     holder.initialize()
                     holder.textViewAction.setOnClickListener {
                         intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=JDSPAPOUU0U"))
                         currentActivity?.startActivity(intent)}
                 }
+
                 is RegistrationPhotoViewHolder -> {
                     holder.initialize(currentLoadImage?.preview)
                     holder.imageViewPhoto.setOnClickListener {
@@ -293,16 +302,20 @@ class RegistrationView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule
                             Intent.createChooser(intent, "Select Picture"), REQUEST_GET_PHOTO)
                     }
                 }
-                is RegistrationButtonViewHolder -> {
+
+                is ButtonViewHolder -> {
+                    holder.initialize("Зарегистрироваться")
+                    holder.button.setOnClickListener {
+                        viewModel.validate {}
+                    }
+                }
+
+                is RegistrationConventionViewHolder -> {
                     holder.initialize()
                     holder.textViewConvention.setOnClickListener {
                         intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=JDSPAPOUU0U"))
                         currentActivity?.startActivity(intent)
                     }
-                    holder.buttonRegistration.setOnClickListener {
-                        viewModel.validate {
-
-                    }}
                 }
             }
         }

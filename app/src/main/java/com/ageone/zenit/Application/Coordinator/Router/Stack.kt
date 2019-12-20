@@ -1,6 +1,7 @@
 package com.ageone.zenit.Application.Coordinator.Router
 
 import com.ageone.zenit.Application.Coordinator.Flow.FlowCoordinator
+import com.ageone.zenit.Application.Coordinator.Flow.Stack.runFlowEvent
 import com.ageone.zenit.Application.Coordinator.Flow.Stack.runFlowMessage
 import com.ageone.zenit.Application.Coordinator.Flow.Stack.runFlowNews
 import com.ageone.zenit.Application.Coordinator.Router.TabBar.Stack
@@ -17,6 +18,7 @@ fun FlowCoordinator.createStackFlows(startFlow: Int) {
 
     runFlowNews()
     runFlowMessage()
+    runFlowEvent()
 
     Stack.flows[startFlow].start()
 }

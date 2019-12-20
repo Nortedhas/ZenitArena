@@ -15,11 +15,12 @@ import com.ageone.zenit.External.Extensions.Activity.hideKeyboard
 import com.ageone.zenit.External.InitModuleUI
 import com.ageone.zenit.External.RxBus.RxBus
 import com.ageone.zenit.Models.RxEvent
-import com.ageone.zenit.Modules.Quiz.rows.QuizButtonViewHolder
 import com.ageone.zenit.Modules.Quiz.rows.QuizTextInputViewHolder
 import com.ageone.zenit.Modules.Quiz.rows.QuizTextViewHolder
 import com.ageone.zenit.Modules.Quiz.rows.initialize
 import com.ageone.zenit.R
+import com.ageone.zenit.UIComponents.ViewHolders.ButtonViewHolder
+import com.ageone.zenit.UIComponents.ViewHolders.initialize
 import yummypets.com.stevia.*
 
 class QuizView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initModuleUI) {
@@ -93,7 +94,7 @@ class QuizView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMod
                     QuizTextInputViewHolder(layout)
                 }
                 QuizButtonType -> {
-                    QuizButtonViewHolder(layout)
+                    ButtonViewHolder(layout)
                 }
                 else -> {
                     BaseViewHolder(layout)
@@ -130,7 +131,7 @@ class QuizView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMod
                         false
                     }
                 }
-                is QuizButtonViewHolder -> {
+                is ButtonViewHolder -> {
                     holder.initialize("Далее")
                 }
             }

@@ -9,6 +9,8 @@ import com.ageone.zenit.External.Base.Flow.BaseFlow
 import com.ageone.zenit.External.Base.Module.BaseModule
 import com.ageone.zenit.External.Base.Module.ModuleInterface
 import com.ageone.zenit.External.InitModuleUI
+import com.ageone.zenit.Modules.Item.ItemModel
+import com.ageone.zenit.Modules.Item.ItemView
 import com.ageone.zenit.Modules.News.NewsView
 import com.ageone.zenit.Modules.News.NewsModel
 import com.ageone.zenit.Modules.News.NewsViewModel
@@ -60,6 +62,7 @@ class FlowNews(previousFlow: BaseFlow? = null) : BaseFlow() {
 
     inner class FlowFlowNewsModels {
         val modelNews = NewsModel()
+        val modelItem = ItemModel()
     }
 
     fun runModuleNews() {
@@ -71,9 +74,30 @@ class FlowNews(previousFlow: BaseFlow? = null) : BaseFlow() {
 
         module.emitEvent = { event ->
             when (NewsViewModel.EventType.valueOf(event)) {
-
+                NewsViewModel.EventType.OnContinuePressed -> {
+                    runModuleItem()
+                }
             }
         }
+        push(module)
+    }
+
+    fun runModuleItem() {
+        val module = ItemView(
+            InitModuleUI(
+            isBackPressed = true
+        ))
+
+        module.viewModel.initialize(models.modelItem) { module.reload() }
+
+        settingsCurrentFlow.isBottomNavigationVisible = true
+
+        /*module.emitEvent = { event ->
+            when (ItemViewModel.EventType.valueOf(event)){
+
+            }
+        }*/
+
         push(module)
     }
 }

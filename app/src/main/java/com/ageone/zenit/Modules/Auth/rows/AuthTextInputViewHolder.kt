@@ -43,6 +43,7 @@ fun AuthTextInputViewHolder.renderUI() {
         .constrainTopToTopOf(constraintLayout,169)
         .fillHorizontally(16)
         .height(55)
+        .setPadding(6.dp,0,0,0)
 
 }
 

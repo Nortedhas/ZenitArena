@@ -8,7 +8,7 @@
             android:height="505px"
             android:width="400px"
             android:gravity="right"
-            android:top="186dp"
+            android:top="146dp"
             android:bottom="226dp"
             android:left="68dp"
             >

@@ -317,7 +317,7 @@ fun RegistrationView.renderUIO() {
     imageViewBackground
         .width(utils.tools.getActualSizeFromDes(505))
         .height(utils.tools.getActualSizeFromDes(400))
-        .constrainTopToTopOf(backgroundFullscreen)
+        .constrainBottomToBottomOf(backgroundFullscreen, (utils.variable.displayHeightDp - utils.tools.getActualSizeFromDes(400)).toInt() + 70)
         .constrainLeftToLeftOf(backgroundFullscreen, utils.tools.getActualSizeFromDes(40).toInt())
 
     renderBodyTable()

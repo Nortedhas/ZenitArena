@@ -73,6 +73,7 @@ fun RegistrationPhotoViewHolder.initialize(imagePreview: String?) {
     textViewLoad.text = "Загрузить фото"
 
     addImageFromGlide(imageViewIconPhoto,R.drawable.ic_photo)
+
     if(!imagePreview.isNullOrBlank()) {
         addImageFromGlide(imageViewPhoto,imagePreview,40.dp)
         imageViewIconPhoto.visibility = View.GONE

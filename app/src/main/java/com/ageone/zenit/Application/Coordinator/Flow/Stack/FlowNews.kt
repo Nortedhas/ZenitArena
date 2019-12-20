@@ -6,14 +6,20 @@ import com.ageone.zenit.Application.Coordinator.Flow.FlowCoordinator.MainUIObjec
 import com.ageone.zenit.Application.Coordinator.Router.DataFlow
 import com.ageone.zenit.Application.Coordinator.Router.TabBar.Stack
 import com.ageone.zenit.External.Base.Flow.BaseFlow
-import com.ageone.zenit.External.Base.Module.BaseModule
 import com.ageone.zenit.External.Base.Module.ModuleInterface
 import com.ageone.zenit.External.InitModuleUI
+import com.ageone.zenit.Modules.Answer.AnswerModel
+import com.ageone.zenit.Modules.Answer.AnswerView
+import com.ageone.zenit.Modules.Answer.AnswerViewModel
 import com.ageone.zenit.Modules.Item.ItemModel
 import com.ageone.zenit.Modules.Item.ItemView
+import com.ageone.zenit.Modules.Item.ItemViewModel
 import com.ageone.zenit.Modules.News.NewsView
 import com.ageone.zenit.Modules.News.NewsModel
 import com.ageone.zenit.Modules.News.NewsViewModel
+import com.ageone.zenit.Modules.Quiz.QuizModel
+import com.ageone.zenit.Modules.Quiz.QuizView
+import com.ageone.zenit.Modules.Quiz.QuizViewModel
 import timber.log.Timber
 
 fun FlowCoordinator.runFlowNews() {
@@ -49,7 +55,7 @@ fun FlowCoordinator.runFlowNews() {
 
 class FlowNews(previousFlow: BaseFlow? = null) : BaseFlow() {
 
-    private var models = FlowFlowNewsModels()
+    private var models = FlowNewsModels()
 
     init {
         this.previousFlow = previousFlow
@@ -60,9 +66,11 @@ class FlowNews(previousFlow: BaseFlow? = null) : BaseFlow() {
         runModuleNews()
     }
 
-    inner class FlowFlowNewsModels {
+    inner class FlowNewsModels {
         val modelNews = NewsModel()
         val modelItem = ItemModel()
+        val modelQuiz = QuizModel()
+        val modelAnswer = AnswerModel()
     }
 
     fun runModuleNews() {
@@ -76,6 +84,9 @@ class FlowNews(previousFlow: BaseFlow? = null) : BaseFlow() {
             when (NewsViewModel.EventType.valueOf(event)) {
                 NewsViewModel.EventType.OnContinuePressed -> {
                     runModuleItem()
+                }
+                NewsViewModel.EventType.OnQuizPressed -> {
+                    runModuleQuiz()
                 }
             }
         }
@@ -92,12 +103,51 @@ class FlowNews(previousFlow: BaseFlow? = null) : BaseFlow() {
 
         settingsCurrentFlow.isBottomNavigationVisible = true
 
-        /*module.emitEvent = { event ->
-            when (ItemViewModel.EventType.valueOf(event)){
+        module.emitEvent = { event ->
+            when (ItemViewModel.EventType.valueOf(event)) {
 
             }
-        }*/
+        }
 
         push(module)
     }
+
+    fun runModuleQuiz() {
+        val module = QuizView(
+            InitModuleUI(
+                isBackPressed = true,
+                isBottomNavigationVisible =  false
+        ))
+
+        module.viewModel.initialize(models.modelQuiz) { module.reload() }
+
+        module.emitEvent = { event ->
+            when (QuizViewModel.EventType.valueOf(event)) {
+                QuizViewModel.EventType.OnAnswerPressed -> {
+                    runModuleAnswer()
+                }
+            }
+        }
+
+        push(module)
+    }
+
+    fun runModuleAnswer() {
+        val module = AnswerView(
+            InitModuleUI(
+                isBackPressed = true,
+                isBottomNavigationVisible = false
+        ))
+
+        module.viewModel.initialize(models.modelQuiz) { module.reload() }
+
+        module.emitEvent = {event ->
+            when(AnswerViewModel.EventType.valueOf(event)) {
+
+            }
+        }
+
+        push(module)
+    }
+
 }

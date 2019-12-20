@@ -27,6 +27,7 @@ class NewsItemViewHolder(val constraintLayout: ConstraintLayout) :
         val textView = BaseTextView()
         textView.textSize = 14F
         textView.textColor = Color.parseColor("#747480")
+        textView.initialize()
         textView
     }
 
@@ -36,6 +37,7 @@ class NewsItemViewHolder(val constraintLayout: ConstraintLayout) :
         textView.typeface = Typeface.DEFAULT_BOLD
         textView.textColor = Color.BLACK
         textView.maxLines = 1
+        textView.initialize()
         textView
     }
 
@@ -44,6 +46,7 @@ class NewsItemViewHolder(val constraintLayout: ConstraintLayout) :
         textView.textSize = 14F
         textView.textColor = Color.BLACK
         textView.maxLines = 2
+        textView.initialize()
         textView
     }
 
@@ -51,6 +54,7 @@ class NewsItemViewHolder(val constraintLayout: ConstraintLayout) :
         val textView = BaseTextView()
         textView.textSize = 12F
         textView.textColor = Color.parseColor("#787880")
+        textView.initialize()
         textView
     }
 

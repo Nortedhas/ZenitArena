@@ -23,7 +23,7 @@ class NewsView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMod
     }
 
     val newsPicture = arrayOf(
-        R.drawable.pic_news_1,
+        R.drawable.pic_item_1,
         R.drawable.pic_item_1)
 
     val date = arrayOf(1572393600, 1569196800)
@@ -58,6 +58,9 @@ class NewsView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMod
         bodyTable.adapter = viewAdapter
 //        bodyTable.overScrollMode = View.OVER_SCROLL_NEVER
 
+        imageViewFAB.setOnClickListener {
+            emitEvent?.invoke(NewsViewModel.EventType.OnQuizPressed.name)
+        }
 
         renderUIO()
         bindUI()
@@ -130,6 +133,7 @@ class NewsView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMod
 }
 
 fun NewsView.renderUIO() {
+    renderBodyTable()
 
     innerContent.subviews(
         imageViewFAB
@@ -141,7 +145,6 @@ fun NewsView.renderUIO() {
         .height(55)
         .width(55)
 
-    renderBodyTable()
 }
 
 

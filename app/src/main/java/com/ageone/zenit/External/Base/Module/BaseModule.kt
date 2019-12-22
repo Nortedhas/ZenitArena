@@ -104,9 +104,11 @@ open class BaseModule(override var initModuleUI: InitModuleUI = InitModuleUI()):
             .fillHorizontally()
             .height(utils.variable.actionBarHeight)
 
+            //TODO: replace in base
+
         val bottomMarginInnerContent =
             utils.variable.navigationBarHeightDp +
-                    if (initModuleUI.isBottomNavigationVisible) 56 / utils.variable.displayDensity else 0F
+                    if (initModuleUI.isBottomNavigationVisible) 56F else 0F
 
         innerContent
             .fillHorizontally()

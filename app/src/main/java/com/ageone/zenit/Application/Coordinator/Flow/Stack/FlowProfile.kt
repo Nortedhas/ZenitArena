@@ -66,7 +66,9 @@ class FlowProfile(previousFlow: BaseFlow? = null) : BaseFlow() {
     }
 
     fun runModuleProfile() {
-        val module = ProfileView()
+        val module = ProfileView(InitModuleUI(
+            isBottomNavigationVisible = true
+        ))
 
         module.viewModel.initialize(models.modelProfile) { module.reload() }
 
@@ -83,8 +85,7 @@ class FlowProfile(previousFlow: BaseFlow? = null) : BaseFlow() {
     }
 
     fun runModuleQr() {
-        val module = QRView(
-            InitModuleUI(
+        val module = QRView(InitModuleUI(
             isBackPressed = true,
             isBottomNavigationVisible = false
         ))

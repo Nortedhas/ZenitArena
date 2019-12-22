@@ -25,7 +25,7 @@ class EventItemView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(in
         viewAdapter
     }
 
-    val isRegistered = false
+    val isRegistered = true
 
     init {
 //        viewModel.loadRealmData()

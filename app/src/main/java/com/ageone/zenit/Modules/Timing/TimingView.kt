@@ -28,7 +28,8 @@ class TimingView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initM
         "Обучение волонтёров",
         "Обучение волонтёров",
         "Обучение волонтёров",
-        "Обучение волонтёров")
+        "Обучение волонтёров"
+    )
 
     val time = arrayOf(
         "15:30",
@@ -39,7 +40,8 @@ class TimingView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initM
         "15:30",
         "15:30 - 16:00",
         "15:30",
-        "15:30")
+        "15:30"
+    )
 
     init {
 //        viewModel.loadRealmData()

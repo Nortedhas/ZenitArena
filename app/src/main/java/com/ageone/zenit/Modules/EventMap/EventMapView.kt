@@ -100,6 +100,9 @@ class EventMapView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(ini
                 }
                 is EventMapImageViewHolder -> {
                     holder.initialize(R.drawable.pic_item_1)
+                    holder.imageViewMap.setOnClickListener {
+                        emitEvent?.invoke(EventMapViewModel.EventType.OnPhotoPressed.name)
+                    }
                 }
             }
         }

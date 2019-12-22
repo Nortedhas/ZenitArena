@@ -1,14 +1,14 @@
-package com.ageone.zenit.Modules.EventMap
+package com.ageone.zenit.Modules.Photo
 
 import com.ageone.zenit.Application.utils
 import com.ageone.zenit.External.Interfaces.InterfaceModel
 import com.ageone.zenit.External.Interfaces.InterfaceViewModel
 
-class EventMapViewModel : InterfaceViewModel {
-    var model = EventMapModel()
+class PhotoViewModel : InterfaceViewModel {
+    var model = PhotoModel()
 
     enum class EventType {
-        OnPhotoPressed
+
     }
 
     /*var realmData = listOf<>()
@@ -17,13 +17,13 @@ class EventMapViewModel : InterfaceViewModel {
     }*/
 
     fun initialize(recievedModel: InterfaceModel, completion: () -> (Unit)) {
-        if (recievedModel is EventMapModel) {
+        if (recievedModel is PhotoModel) {
             model = recievedModel
             completion.invoke()
         }
     }
 }
 
-class EventMapModel : InterfaceModel {
+class PhotoModel : InterfaceModel {
 
 }

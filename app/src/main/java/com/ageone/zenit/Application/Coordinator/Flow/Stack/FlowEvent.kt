@@ -17,6 +17,9 @@ import com.ageone.zenit.Modules.EventItem.EventItemViewModel
 import com.ageone.zenit.Modules.EventMap.EventMapModel
 import com.ageone.zenit.Modules.EventMap.EventMapView
 import com.ageone.zenit.Modules.EventMap.EventMapViewModel
+import com.ageone.zenit.Modules.Photo.PhotoModel
+import com.ageone.zenit.Modules.Photo.PhotoView
+import com.ageone.zenit.Modules.Photo.PhotoViewModel
 import com.ageone.zenit.Modules.Timing.TimingModel
 import com.ageone.zenit.Modules.Timing.TimingView
 import com.ageone.zenit.Modules.Timing.TimingViewModel
@@ -72,6 +75,7 @@ class FlowEvent(previousFlow: BaseFlow? = null) : BaseFlow() {
         val modelEventItem = EventItemModel()
         val modelTiming = TimingModel()
         val modelEventMap = EventMapModel()
+        val modelPhoto = PhotoModel()
     }
 
     fun runModuleEvent() {
@@ -94,7 +98,7 @@ class FlowEvent(previousFlow: BaseFlow? = null) : BaseFlow() {
     fun runModuleEventItem() {
         val module = EventItemView(
             InitModuleUI(
-            isBackPressed = true
+                isBackPressed = true
         ))
 
         module.viewModel.initialize(models.modelEventItem) { module.reload() }
@@ -118,7 +122,7 @@ class FlowEvent(previousFlow: BaseFlow? = null) : BaseFlow() {
     fun runModuleTiming() {
         val module = TimingView(
             InitModuleUI(
-            isBackPressed = true
+                isBackPressed = true
         ))
 
         module.viewModel.initialize(models.modelTiming) { module.reload() }
@@ -137,7 +141,7 @@ class FlowEvent(previousFlow: BaseFlow? = null) : BaseFlow() {
     fun runModuleEventMap() {
         val module = EventMapView(
             InitModuleUI(
-            isBackPressed = true
+                isBackPressed = true
         ))
 
         module.viewModel.initialize(models.modelEventMap) { module.reload() }
@@ -146,6 +150,28 @@ class FlowEvent(previousFlow: BaseFlow? = null) : BaseFlow() {
 
         module.emitEvent = { event ->
             when(EventMapViewModel.EventType.valueOf(event)) {
+                EventMapViewModel.EventType.OnPhotoPressed -> {
+                    runModulePhoto()
+                }
+            }
+        }
+
+        push(module)
+    }
+
+    fun runModulePhoto() {
+        val module = PhotoView(
+            InitModuleUI(
+                isBackPressed = true,
+                isBottomNavigationVisible = false
+        ))
+
+        module.viewModel.initialize(models.modelPhoto) { module.reload() }
+
+        settingsCurrentFlow.isBottomNavigationVisible = false
+
+        module.emitEvent = { event ->
+            when(PhotoViewModel.EventType.valueOf(event)) {
 
             }
         }

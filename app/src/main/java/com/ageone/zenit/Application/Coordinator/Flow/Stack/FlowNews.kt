@@ -96,7 +96,7 @@ class FlowNews(previousFlow: BaseFlow? = null) : BaseFlow() {
     fun runModuleItem() {
         val module = ItemView(
             InitModuleUI(
-            isBackPressed = true
+                isBackPressed = true
         ))
 
         module.viewModel.initialize(models.modelItem) { module.reload() }
@@ -139,7 +139,7 @@ class FlowNews(previousFlow: BaseFlow? = null) : BaseFlow() {
                 isBottomNavigationVisible = false
         ))
 
-        module.viewModel.initialize(models.modelQuiz) { module.reload() }
+        module.viewModel.initialize(models.modelAnswer) { module.reload() }
 
         module.emitEvent = {event ->
             when(AnswerViewModel.EventType.valueOf(event)) {

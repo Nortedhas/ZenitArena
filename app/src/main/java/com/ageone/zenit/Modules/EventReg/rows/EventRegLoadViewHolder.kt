@@ -1,6 +1,7 @@
 package com.ageone.zenit.Modules.EventReg.rows
 
 import android.graphics.Color
+import android.view.Gravity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.ageone.zenit.External.Base.RecyclerView.BaseViewHolder
 import com.ageone.zenit.External.Base.TextView.BaseTextView
@@ -23,6 +24,7 @@ class EventRegLoadViewHolder(val constraintLayout: ConstraintLayout) :
         textView.textSize = 12F
         textView.textColor = Color.parseColor("#787880")
         textView.text = "Для лиц, не достигших 18 лет, требуется\nсогласие от родителей в формате PDF"
+        textView.gravity = Gravity.CENTER_HORIZONTAL
         textView.initialize()
         textView
     }

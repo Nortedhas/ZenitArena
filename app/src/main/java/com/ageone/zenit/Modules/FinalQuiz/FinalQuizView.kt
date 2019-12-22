@@ -1,12 +1,16 @@
 package com.ageone.zenit.Modules.FinalQuiz
 
 import android.graphics.Color
+import android.os.Handler
+import android.view.MotionEvent
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.ageone.zenit.Application.currentActivity
 import com.ageone.zenit.External.Base.Module.BaseModule
 import com.ageone.zenit.External.Base.RecyclerView.BaseAdapter
 import com.ageone.zenit.External.Base.RecyclerView.BaseViewHolder
 import com.ageone.zenit.External.Base.TextInputLayout.InputEditTextType
+import com.ageone.zenit.External.Extensions.Activity.hideKeyboard
 import com.ageone.zenit.External.InitModuleUI
 import com.ageone.zenit.Modules.FinalQuiz.rows.FinalQuizTextInputViewHolder
 import com.ageone.zenit.Modules.FinalQuiz.rows.FinalQuizTextViewHolder
@@ -109,6 +113,15 @@ class FinalQuizView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(in
                 }
                 is FinalQuizTextInputViewHolder -> {
                     holder.initialize("Мой ответ", InputEditTextType.TEXT)
+                    holder.textInputFinalQuiz.editText?.setOnTouchListener { v, event ->
+                        if(event.action == MotionEvent.ACTION_DOWN) {
+                            Handler().postDelayed({
+                                currentActivity?.hideKeyboard()
+                            },300)
+                            emitEvent?.invoke(FinalQuizViewModel.EventType.OnAnswerPressed.name)
+                        }
+                        false
+                    }
                 }
                 is ButtonViewHolder -> {
                     holder.initialize("Отправить")

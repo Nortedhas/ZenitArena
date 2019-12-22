@@ -8,6 +8,9 @@ import com.ageone.zenit.Application.Coordinator.Router.TabBar.Stack
 import com.ageone.zenit.External.Base.Flow.BaseFlow
 import com.ageone.zenit.External.Base.Module.ModuleInterface
 import com.ageone.zenit.External.InitModuleUI
+import com.ageone.zenit.Modules.Answer.AnswerModel
+import com.ageone.zenit.Modules.Answer.AnswerView
+import com.ageone.zenit.Modules.Answer.AnswerViewModel
 import com.ageone.zenit.Modules.Quiz.QuizModel
 import com.ageone.zenit.Modules.Quiz.QuizView
 import com.ageone.zenit.Modules.Quiz.QuizViewModel
@@ -59,6 +62,7 @@ class FlowQuiz(previousFlow: BaseFlow? = null) : BaseFlow() {
 
     inner class FlowQuizModels {
         val modelQuizText = QuizModel()
+        val modelAnswer = AnswerModel()
     }
 
     fun runModuleQuiz() {
@@ -70,13 +74,32 @@ class FlowQuiz(previousFlow: BaseFlow? = null) : BaseFlow() {
 
         module.viewModel.initialize(models.modelQuizText) { module.reload() }
 
-        settingsCurrentFlow.isBottomNavigationVisible = false
-
         module.emitEvent = { event ->
             when (QuizViewModel.EventType.valueOf(event)) {
+                QuizViewModel.EventType.OnAnswerPressed -> {
+                    runModuleAnswer()
+                }
+            }
+        }
+
+        push(module)
+    }
+
+    fun runModuleAnswer() {
+        val module = AnswerView(
+            InitModuleUI(
+                isBackPressed = true,
+                isBottomNavigationVisible = false
+            ))
+
+        module.viewModel.initialize(models.modelAnswer) { module.reload() }
+
+        module.emitEvent = {event ->
+            when(AnswerViewModel.EventType.valueOf(event)) {
 
             }
         }
+
         push(module)
     }
 }

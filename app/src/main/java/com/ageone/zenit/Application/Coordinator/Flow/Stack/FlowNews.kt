@@ -72,8 +72,6 @@ class FlowNews(previousFlow: BaseFlow? = null) : BaseFlow() {
     inner class FlowNewsModels {
         val modelNews = NewsModel()
         val modelItem = ItemModel()
-        val modelQuiz = QuizModel()
-        val modelAnswer = AnswerModel()
     }
 
     fun runModuleNews() {
@@ -111,44 +109,6 @@ class FlowNews(previousFlow: BaseFlow? = null) : BaseFlow() {
 
         module.emitEvent = { event ->
             when (ItemViewModel.EventType.valueOf(event)) {
-
-            }
-        }
-
-        push(module)
-    }
-
-    fun runModuleQuiz() {
-        val module = QuizView(
-            InitModuleUI(
-                isBackPressed = true,
-                isBottomNavigationVisible =  false
-        ))
-
-        module.viewModel.initialize(models.modelQuiz) { module.reload() }
-
-        module.emitEvent = { event ->
-            when (QuizViewModel.EventType.valueOf(event)) {
-                QuizViewModel.EventType.OnAnswerPressed -> {
-                    runModuleAnswer()
-                }
-            }
-        }
-
-        push(module)
-    }
-
-    fun runModuleAnswer() {
-        val module = AnswerView(
-            InitModuleUI(
-                isBackPressed = true,
-                isBottomNavigationVisible = false
-        ))
-
-        module.viewModel.initialize(models.modelAnswer) { module.reload() }
-
-        module.emitEvent = {event ->
-            when(AnswerViewModel.EventType.valueOf(event)) {
 
             }
         }

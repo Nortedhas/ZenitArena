@@ -8,7 +8,7 @@ class FinalQuizViewModel : InterfaceViewModel {
     var model = FinalQuizModel()
 
     enum class EventType {
-
+        OnAnswerPressed
     }
 
     /*var realmData = listOf<>()

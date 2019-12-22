@@ -1,13 +1,9 @@
-package com.ageone.zenit.Modules.Event.rows
+package com.ageone.zenit.UIComponents.ViewHolders
 
 import android.graphics.Color
-import android.graphics.Outline
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
-import android.view.View
-import android.view.ViewOutlineProvider
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.ageone.zenit.External.Base.ConstraintLayout.setOnlyTopRoundedCorners
 import com.ageone.zenit.External.Base.RecyclerView.BaseViewHolder
 import com.ageone.zenit.External.Base.TextView.BaseTextView
 import com.ageone.zenit.External.Base.View.BaseView
@@ -15,8 +11,7 @@ import yummypets.com.stevia.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class EventItemViewHolder(val constraintLayout: ConstraintLayout) :
-    BaseViewHolder(constraintLayout) {
+class EventViewHolder(val constraintLayout: ConstraintLayout) : BaseViewHolder(constraintLayout) {
 
     val shape = GradientDrawable()
 
@@ -46,15 +41,16 @@ class EventItemViewHolder(val constraintLayout: ConstraintLayout) :
         textView
     }
 
-    val format = SimpleDateFormat("dd.MM.yyyy, HH:MM", Locale("ru"))
+
 
     init {
+
         renderUI()
     }
 
 }
 
-fun EventItemViewHolder.renderUI() {
+fun EventViewHolder.renderUI() {
     constraintLayout.subviews(
         viewBack.subviews(
             viewLine,
@@ -76,9 +72,21 @@ fun EventItemViewHolder.renderUI() {
     textViewEvent
         .constrainTopToTopOf(viewBack,16)
         .fillHorizontally(24)
+
 }
 
-fun EventItemViewHolder.initialize(date: Int,text: String) {
-    val date = format.format(Date(date.toLong() * 1000))
-    textViewEvent.text = "$date, $text"
+fun EventViewHolder.initialize(timeFormat: String, time: Int = 0, text: String) {
+        val format = SimpleDateFormat(timeFormat, Locale("ru"))
+
+        val date = format.format(Date(time.toLong() * 1000))
+
+        textViewEvent.text = "$date, $text"
 }
+
+fun EventViewHolder.initialize(time:String, text: String) {
+    textViewEvent.text = "$time  $text"
+    textViewEvent.constrainCenterYToCenterYOf(viewBack)
+}
+
+
+

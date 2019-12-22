@@ -3,8 +3,11 @@ package com.ageone.zenit.Application.Coordinator.Flow.Stack
 import androidx.core.view.children
 import com.ageone.zenit.Application.Coordinator.Flow.FlowCoordinator
 import com.ageone.zenit.Application.Coordinator.Flow.FlowCoordinator.MainUIObject.flowStorage
+import com.ageone.zenit.Application.Coordinator.Flow.Regular.runFlowFinalQuiz
+import com.ageone.zenit.Application.Coordinator.Flow.Regular.runFlowQuiz
 import com.ageone.zenit.Application.Coordinator.Router.DataFlow
 import com.ageone.zenit.Application.Coordinator.Router.TabBar.Stack
+import com.ageone.zenit.Application.coordinator
 import com.ageone.zenit.External.Base.Flow.BaseFlow
 import com.ageone.zenit.External.Base.Module.ModuleInterface
 import com.ageone.zenit.External.InitModuleUI
@@ -69,8 +72,6 @@ class FlowNews(previousFlow: BaseFlow? = null) : BaseFlow() {
     inner class FlowNewsModels {
         val modelNews = NewsModel()
         val modelItem = ItemModel()
-        val modelQuiz = QuizModel()
-        val modelAnswer = AnswerModel()
     }
 
     fun runModuleNews() {
@@ -86,7 +87,10 @@ class FlowNews(previousFlow: BaseFlow? = null) : BaseFlow() {
                     runModuleItem()
                 }
                 NewsViewModel.EventType.OnQuizPressed -> {
-                    runModuleQuiz()
+                    coordinator.runFlowQuiz(this)
+                }
+                NewsViewModel.EventType.OnFinalQuizPressed -> {
+                    coordinator.runFlowFinalQuiz(this)
                 }
             }
         }
@@ -96,7 +100,7 @@ class FlowNews(previousFlow: BaseFlow? = null) : BaseFlow() {
     fun runModuleItem() {
         val module = ItemView(
             InitModuleUI(
-            isBackPressed = true
+                isBackPressed = true
         ))
 
         module.viewModel.initialize(models.modelItem) { module.reload() }
@@ -105,44 +109,6 @@ class FlowNews(previousFlow: BaseFlow? = null) : BaseFlow() {
 
         module.emitEvent = { event ->
             when (ItemViewModel.EventType.valueOf(event)) {
-
-            }
-        }
-
-        push(module)
-    }
-
-    fun runModuleQuiz() {
-        val module = QuizView(
-            InitModuleUI(
-                isBackPressed = true,
-                isBottomNavigationVisible =  false
-        ))
-
-        module.viewModel.initialize(models.modelQuiz) { module.reload() }
-
-        module.emitEvent = { event ->
-            when (QuizViewModel.EventType.valueOf(event)) {
-                QuizViewModel.EventType.OnAnswerPressed -> {
-                    runModuleAnswer()
-                }
-            }
-        }
-
-        push(module)
-    }
-
-    fun runModuleAnswer() {
-        val module = AnswerView(
-            InitModuleUI(
-                isBackPressed = true,
-                isBottomNavigationVisible = false
-        ))
-
-        module.viewModel.initialize(models.modelQuiz) { module.reload() }
-
-        module.emitEvent = {event ->
-            when(AnswerViewModel.EventType.valueOf(event)) {
 
             }
         }

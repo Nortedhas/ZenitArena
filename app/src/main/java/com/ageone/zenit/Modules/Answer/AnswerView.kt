@@ -2,13 +2,9 @@ package com.ageone.zenit.Modules.Answer
 
 import android.graphics.Color
 import android.text.InputType
-import android.view.View
-import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doOnTextChanged
 import com.ageone.zenit.Application.router
 import com.ageone.zenit.Application.rxData
-import com.ageone.zenit.Application.utils
 import com.ageone.zenit.External.Base.Button.BaseButton
 import com.ageone.zenit.External.Base.EditText.limitLength
 import com.ageone.zenit.External.Base.Module.BaseModule
@@ -47,14 +43,16 @@ class AnswerView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initM
 
     val buttonAnswer by lazy {
         val button = BaseButton()
-        button.setBackgroundColor(Color.parseColor("#00ACEB"))
+        button.backgroundColor = Color.parseColor("#00ACEB")
         button.textColor = Color.WHITE
         button.textSize = 20F
-        button.cornerRadius = 16.dp
+        button.cornerRadius = 6.dp
         button.inputType = InputType.TYPE_TEXT_VARIATION_NORMAL
         button.text = "Готово"
+        button.initialize()
         button
     }
+
 
     init {
 //        viewModel.loadRealmData()

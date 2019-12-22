@@ -8,7 +8,7 @@ class EventViewModel : InterfaceViewModel {
     var model = EventModel()
 
     enum class EventType {
-
+        OnEventPressed
     }
 
     /*var realmData = listOf<>()

@@ -1,6 +1,7 @@
 package com.ageone.zenit.Modules.Event
 
 import android.graphics.Color
+import android.graphics.Typeface
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.ageone.zenit.External.Base.Module.BaseModule
@@ -8,7 +9,10 @@ import com.ageone.zenit.External.Base.RecyclerView.BaseAdapter
 import com.ageone.zenit.External.Base.RecyclerView.BaseViewHolder
 import com.ageone.zenit.External.InitModuleUI
 import com.ageone.zenit.Modules.Event.rows.EventItemViewHolder
+import com.ageone.zenit.Modules.Event.rows.EventTextViewHolder
 import com.ageone.zenit.Modules.Event.rows.initialize
+import com.ageone.zenit.UIComponents.ViewHolders.EventViewHolder
+import com.ageone.zenit.UIComponents.ViewHolders.initialize
 import yummypets.com.stevia.*
 
 class EventView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initModuleUI) {
@@ -20,12 +24,29 @@ class EventView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMo
         viewAdapter
     }
 
+    val text = arrayOf(
+        " РПЛ, «Зенит» - «Ростов»",
+        "Кубок России, «Зенит» - «Томь»",
+        "РПЛ, «Зенит» - «ЦСКА»",
+        "Лига Чемпионов, «Зенит» - «РБ Лейпциг»",
+        "квалификация ЧЕ-2020, «Россия» - «Бельгия»",
+        "Лига Чемпионов, «Зенит» - «Лион»",
+        "квалификация ЧЕ-2020, «Россия» - «Бельгия»",
+        "Лига Чемпионов, «Зенит» - «Лион»",
+        "РПЛ, «Зенит» - «ЦСКА»")
+
+    val monthMap = mutableMapOf<Int,String>()
+
     init {
 //        viewModel.loadRealmData()
 
-//        backgroundFullscreen.setBackgroundResource(R.drawable.base_background)//TODO: set background
+        monthMap[0] = "Октябрь" //TODO : for test
+        monthMap[3] = "Ноябрь"
 
-        toolbar.title = ""
+        backgroundFullscreen.setBackgroundColor(Color.WHITE)
+
+        toolbar.title = "События"
+        toolbar.textColor = Color.parseColor("#00ACEB")
 
         renderToolbar()
 
@@ -52,13 +73,14 @@ class EventView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMo
 
     inner class Factory(val rootModule: BaseModule) : BaseAdapter<BaseViewHolder>() {
 
-        private val EventItemType = 0
+        private val EventTextType = 0
+        private val EventItemType = 1
 
-        override fun getItemCount() = 1//viewModel.realmData.size
+        override fun getItemCount() = 9//viewModel.realmData.size
 
         override fun getItemViewType(position: Int): Int = when (position) {
-            0 -> EventItemType
-            else -> -1
+            0,3 -> EventTextType
+            else -> EventItemType
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
@@ -70,8 +92,11 @@ class EventView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMo
                 .height(wrapContent)
 
             val holder = when (viewType) {
+                EventTextType -> {
+                    EventTextViewHolder(layout)
+                }
                 EventItemType -> {
-                    EventItemViewHolder(layout)
+                EventViewHolder(layout)
                 }
                 else -> {
                     BaseViewHolder(layout)
@@ -84,16 +109,25 @@ class EventView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMo
         override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
 
             when (holder) {
-                is EventItemViewHolder -> {
-                    holder.initialize()
+                is EventTextViewHolder -> {
+                    holder.initialize(monthMap[position] ?: "")
                 }
+                is EventViewHolder -> {
+                    if(position == 1) {
+                        holder.textViewEvent.typeface = Typeface.DEFAULT_BOLD
+                        holder.shape.setColor(Color.parseColor("#C6F0FF"))
+                        holder.viewLine.backgroundColor = Color.parseColor("#5ED4FF")
+                        holder.viewLine.initialize()
 
+                        holder.viewBack.setOnClickListener {
+                            emitEvent?.invoke(EventViewModel.EventType.OnEventPressed.name)
+                        }
+                    }
+                    holder.initialize("dd.MM.yyyy, HH:MM",1571511600,text[position])
+                }
             }
-
         }
-
     }
-
 }
 
 fun EventView.renderUIO() {

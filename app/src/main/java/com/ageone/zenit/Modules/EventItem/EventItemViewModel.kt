@@ -1,16 +1,16 @@
-package com.ageone.zenit.Modules.News
+package com.ageone.zenit.Modules.EventItem
 
 import com.ageone.zenit.Application.utils
 import com.ageone.zenit.External.Interfaces.InterfaceModel
 import com.ageone.zenit.External.Interfaces.InterfaceViewModel
 
-class NewsViewModel : InterfaceViewModel {
-    var model = NewsModel()
+class EventItemViewModel : InterfaceViewModel {
+    var model = EventItemModel()
 
     enum class EventType {
-        OnContinuePressed,
-        OnQuizPressed,
-        OnFinalQuizPressed
+        OnTimingPressed,
+        OnMapPressed,
+        OnRegistrationPressed
     }
 
     /*var realmData = listOf<>()
@@ -19,13 +19,13 @@ class NewsViewModel : InterfaceViewModel {
     }*/
 
     fun initialize(recievedModel: InterfaceModel, completion: () -> (Unit)) {
-        if (recievedModel is NewsModel) {
+        if (recievedModel is EventItemModel) {
             model = recievedModel
             completion.invoke()
         }
     }
 }
 
-class NewsModel : InterfaceModel {
+class EventItemModel : InterfaceModel {
 
 }

@@ -3,8 +3,11 @@ package com.ageone.zenit.Application.Coordinator.Flow.Stack
 import androidx.core.view.children
 import com.ageone.zenit.Application.Coordinator.Flow.FlowCoordinator
 import com.ageone.zenit.Application.Coordinator.Flow.FlowCoordinator.MainUIObject.flowStorage
+import com.ageone.zenit.Application.Coordinator.Flow.Regular.runFlowFinalQuiz
+import com.ageone.zenit.Application.Coordinator.Flow.Regular.runFlowQuiz
 import com.ageone.zenit.Application.Coordinator.Router.DataFlow
 import com.ageone.zenit.Application.Coordinator.Router.TabBar.Stack
+import com.ageone.zenit.Application.coordinator
 import com.ageone.zenit.External.Base.Flow.BaseFlow
 import com.ageone.zenit.External.Base.Module.ModuleInterface
 import com.ageone.zenit.External.InitModuleUI
@@ -86,7 +89,10 @@ class FlowNews(previousFlow: BaseFlow? = null) : BaseFlow() {
                     runModuleItem()
                 }
                 NewsViewModel.EventType.OnQuizPressed -> {
-                    runModuleQuiz()
+                    coordinator.runFlowQuiz(this)
+                }
+                NewsViewModel.EventType.OnFinalQuizPressed -> {
+                    coordinator.runFlowFinalQuiz(this)
                 }
             }
         }

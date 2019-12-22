@@ -119,6 +119,12 @@ class NewsView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMod
                         newsTitle[position],
                         news[position])
 
+                    if(position == 0) {
+                        holder.imageViewNews.setOnClickListener {
+                            emitEvent?.invoke(NewsViewModel.EventType.OnFinalQuizPressed.name)
+                        }
+                    }
+
                     holder.viewBackContinue.setOnClickListener {
                         emitEvent?.invoke(NewsViewModel.EventType.OnContinuePressed.name)
                     }

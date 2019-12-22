@@ -7,9 +7,13 @@ import com.ageone.zenit.Application.Coordinator.Router.DataFlow
 import com.ageone.zenit.Application.Coordinator.Router.TabBar.Stack
 import com.ageone.zenit.External.Base.Flow.BaseFlow
 import com.ageone.zenit.External.Base.Module.ModuleInterface
+import com.ageone.zenit.External.InitModuleUI
 import com.ageone.zenit.Modules.Profile.ProfileView
 import com.ageone.zenit.Modules.Profile.ProfileModel
 import com.ageone.zenit.Modules.Profile.ProfileViewModel
+import com.ageone.zenit.Modules.QR.QRModel
+import com.ageone.zenit.Modules.QR.QRView
+import com.ageone.zenit.Modules.QR.QRViewModel
 import timber.log.Timber
 
 fun FlowCoordinator.runFlowProfile() {
@@ -58,6 +62,7 @@ class FlowProfile(previousFlow: BaseFlow? = null) : BaseFlow() {
 
     inner class FlowProfileModels {
         val modelProfile = ProfileModel()
+        val modelQr = QRModel()
     }
 
     fun runModuleProfile() {
@@ -69,9 +74,31 @@ class FlowProfile(previousFlow: BaseFlow? = null) : BaseFlow() {
 
         module.emitEvent = { event ->
             when (ProfileViewModel.EventType.valueOf(event)) {
+                ProfileViewModel.EventType.OnQrCodePressed -> {
+                    runModuleQr()
+                }
+            }
+        }
+        push(module)
+    }
+
+    fun runModuleQr() {
+        val module = QRView(
+            InitModuleUI(
+            isBackPressed = true,
+            isBottomNavigationVisible = false
+        ))
+
+        module.viewModel.initialize(models.modelQr) { module.reload() }
+
+        settingsCurrentFlow.isBottomNavigationVisible = false
+
+        module.emitEvent = { event ->
+            when(QRViewModel.EventType.valueOf(event)) {
 
             }
         }
+
         push(module)
     }
 }

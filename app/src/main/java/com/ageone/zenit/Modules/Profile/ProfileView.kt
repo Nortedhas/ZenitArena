@@ -112,6 +112,9 @@ class ProfileView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(init
                 }
                 is ButtonViewHolder -> {
                     holder.initialize("Мой QR-код")
+                    holder.button.setOnClickListener {
+                        emitEvent?.invoke(ProfileViewModel.EventType.OnQrCodePressed.name)
+                    }
                 }
             }
         }

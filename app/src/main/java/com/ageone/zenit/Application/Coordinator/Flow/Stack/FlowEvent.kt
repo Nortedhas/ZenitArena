@@ -14,6 +14,9 @@ import com.ageone.zenit.Modules.Event.EventViewModel
 import com.ageone.zenit.Modules.EventItem.EventItemModel
 import com.ageone.zenit.Modules.EventItem.EventItemView
 import com.ageone.zenit.Modules.EventItem.EventItemViewModel
+import com.ageone.zenit.Modules.EventMap.EventMapModel
+import com.ageone.zenit.Modules.EventMap.EventMapView
+import com.ageone.zenit.Modules.EventMap.EventMapViewModel
 import com.ageone.zenit.Modules.Timing.TimingModel
 import com.ageone.zenit.Modules.Timing.TimingView
 import com.ageone.zenit.Modules.Timing.TimingViewModel
@@ -68,6 +71,7 @@ class FlowEvent(previousFlow: BaseFlow? = null) : BaseFlow() {
         val modelEvent = EventModel()
         val modelEventItem = EventItemModel()
         val modelTiming = TimingModel()
+        val modelEventMap = EventMapModel()
     }
 
     fun runModuleEvent() {
@@ -102,6 +106,9 @@ class FlowEvent(previousFlow: BaseFlow? = null) : BaseFlow() {
                 EventItemViewModel.EventType.OnTimingPressed -> {
                     runModuleTiming()
                 }
+                EventItemViewModel.EventType.OnMapPressed -> {
+                    runModuleEventMap()
+                }
             }
         }
 
@@ -120,6 +127,25 @@ class FlowEvent(previousFlow: BaseFlow? = null) : BaseFlow() {
 
         module.emitEvent = { event ->
             when(TimingViewModel.EventType.valueOf(event)) {
+
+            }
+        }
+
+        push(module)
+    }
+
+    fun runModuleEventMap() {
+        val module = EventMapView(
+            InitModuleUI(
+            isBackPressed = true
+        ))
+
+        module.viewModel.initialize(models.modelEventMap) { module.reload() }
+
+        settingsCurrentFlow.isBottomNavigationVisible = true
+
+        module.emitEvent = { event ->
+            when(EventMapViewModel.EventType.valueOf(event)) {
 
             }
         }

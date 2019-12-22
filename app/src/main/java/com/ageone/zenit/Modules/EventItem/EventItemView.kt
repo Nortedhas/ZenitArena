@@ -7,7 +7,6 @@ import com.ageone.zenit.External.Base.Module.BaseModule
 import com.ageone.zenit.External.Base.RecyclerView.BaseAdapter
 import com.ageone.zenit.External.Base.RecyclerView.BaseViewHolder
 import com.ageone.zenit.External.InitModuleUI
-import com.ageone.zenit.Modules.Event.rows.EventTextViewHolder
 import com.ageone.zenit.Modules.EventItem.rows.EventImageViewHolder
 import com.ageone.zenit.Modules.EventItem.rows.EventItemButtonViewHolder
 import com.ageone.zenit.Modules.EventItem.rows.EventItemTextViewHolder
@@ -126,7 +125,10 @@ class EventItemView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(in
                             }
                         }
                         3 -> {
-                            holder.initialize(R.drawable.ic_geo,"Как добраться")
+                            holder.initialize(R.drawable.ic_map,"Как добраться")
+                            holder.viewEventItem.setOnClickListener {
+                                emitEvent?.invoke(EventItemViewModel.EventType.OnMapPressed.name)
+                            }
                         }
                     }
                 }
@@ -134,8 +136,7 @@ class EventItemView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(in
                 is ButtonViewHolder -> {
                     holder.initialize("Зарегистрироваться")
                     holder.button.setOnClickListener {
-                        isRegistration != isRegistration
-                        notifyDataSetChanged()
+
                     }
                 }
             }

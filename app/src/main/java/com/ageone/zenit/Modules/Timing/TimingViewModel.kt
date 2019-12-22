@@ -1,14 +1,14 @@
-package com.ageone.zenit.Modules.EventItem
+package com.ageone.zenit.Modules.Timing
 
 import com.ageone.zenit.Application.utils
 import com.ageone.zenit.External.Interfaces.InterfaceModel
 import com.ageone.zenit.External.Interfaces.InterfaceViewModel
 
-class EventItemViewModel : InterfaceViewModel {
-    var model = EventItemModel()
+class TimingViewModel : InterfaceViewModel {
+    var model = TimingModel()
 
     enum class EventType {
-        OnTimingPressed
+
     }
 
     /*var realmData = listOf<>()
@@ -17,13 +17,13 @@ class EventItemViewModel : InterfaceViewModel {
     }*/
 
     fun initialize(recievedModel: InterfaceModel, completion: () -> (Unit)) {
-        if (recievedModel is EventItemModel) {
+        if (recievedModel is TimingModel) {
             model = recievedModel
             completion.invoke()
         }
     }
 }
 
-class EventItemModel : InterfaceModel {
+class TimingModel : InterfaceModel {
 
 }

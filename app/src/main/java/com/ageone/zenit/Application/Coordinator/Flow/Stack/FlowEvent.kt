@@ -14,6 +14,9 @@ import com.ageone.zenit.Modules.Event.EventViewModel
 import com.ageone.zenit.Modules.EventItem.EventItemModel
 import com.ageone.zenit.Modules.EventItem.EventItemView
 import com.ageone.zenit.Modules.EventItem.EventItemViewModel
+import com.ageone.zenit.Modules.Timing.TimingModel
+import com.ageone.zenit.Modules.Timing.TimingView
+import com.ageone.zenit.Modules.Timing.TimingViewModel
 
 import timber.log.Timber
 
@@ -64,6 +67,7 @@ class FlowEvent(previousFlow: BaseFlow? = null) : BaseFlow() {
     inner class FlowEventModels {
         val modelEvent = EventModel()
         val modelEventItem = EventItemModel()
+        val modelTiming = TimingModel()
     }
 
     fun runModuleEvent() {
@@ -95,10 +99,32 @@ class FlowEvent(previousFlow: BaseFlow? = null) : BaseFlow() {
 
         module.emitEvent = { event ->
             when (EventItemViewModel.EventType.valueOf(event)) {
+                EventItemViewModel.EventType.OnTimingPressed -> {
+                    runModuleTiming()
+                }
+            }
+        }
+
+        push(module)
+    }
+
+    fun runModuleTiming() {
+        val module = TimingView(
+            InitModuleUI(
+            isBackPressed = true
+        ))
+
+        module.viewModel.initialize(models.modelTiming) { module.reload() }
+
+        settingsCurrentFlow.isBottomNavigationVisible = true
+
+        module.emitEvent = { event ->
+            when(TimingViewModel.EventType.valueOf(event)) {
 
             }
         }
 
         push(module)
     }
+
 }

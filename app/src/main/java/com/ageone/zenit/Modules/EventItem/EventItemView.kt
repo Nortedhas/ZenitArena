@@ -9,6 +9,7 @@ import com.ageone.zenit.External.Base.RecyclerView.BaseViewHolder
 import com.ageone.zenit.External.InitModuleUI
 import com.ageone.zenit.Modules.Event.rows.EventTextViewHolder
 import com.ageone.zenit.Modules.EventItem.rows.EventImageViewHolder
+import com.ageone.zenit.Modules.EventItem.rows.EventItemButtonViewHolder
 import com.ageone.zenit.Modules.EventItem.rows.EventItemTextViewHolder
 import com.ageone.zenit.Modules.EventItem.rows.initialize
 import com.ageone.zenit.R
@@ -24,6 +25,8 @@ class EventItemView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(in
         val viewAdapter = Factory(this)
         viewAdapter
     }
+
+    val isRegistration = true
 
     init {
 //        viewModel.loadRealmData()
@@ -62,13 +65,12 @@ class EventItemView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(in
         private val EventTextType = 1
         private val EventButtonType = 2
 
-        override fun getItemCount() = 4//viewModel.realmData.size
+        override fun getItemCount() = if(isRegistration) 4 else 3//viewModel.realmData.size
 
         override fun getItemViewType(position: Int): Int = when (position) {
             0 -> EventImageType
             1 -> EventTextType
-            2 -> EventButtonType
-            else -> -1
+            else -> EventButtonType
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
@@ -87,7 +89,10 @@ class EventItemView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(in
                     EventItemTextViewHolder(layout)
                 }
                 EventButtonType -> {
-                    ButtonViewHolder(layout)
+                    if(isRegistration)
+                        EventItemButtonViewHolder(layout)
+                    else
+                        ButtonViewHolder(layout)
                 }
                 else -> {
                     BaseViewHolder(layout)
@@ -112,8 +117,26 @@ class EventItemView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(in
                             "В ничью закончились 6 встреч. Последнюю из трех своих побед томский клуб одержал 10 лет назад со счетом 2:0 " +
                             "В свою очередь сине-бело-голубые не сдают позиции и всего два раза отпускали томичей с ничейным счетом за прошедшие 10 лет.")
                 }
+                is EventItemButtonViewHolder -> {
+                    when(position) {
+                        2 -> {
+                            holder.initialize(R.drawable.ic_timing,"Тайминг")
+                            holder.viewEventItem.setOnClickListener {
+                                emitEvent?.invoke(EventItemViewModel.EventType.OnTimingPressed.name)
+                            }
+                        }
+                        3 -> {
+                            holder.initialize(R.drawable.ic_geo,"Как добраться")
+                        }
+                    }
+                }
+
                 is ButtonViewHolder -> {
                     holder.initialize("Зарегистрироваться")
+                    holder.button.setOnClickListener {
+                        isRegistration != isRegistration
+                        notifyDataSetChanged()
+                    }
                 }
             }
         }

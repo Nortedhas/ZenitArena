@@ -11,6 +11,8 @@ import com.ageone.zenit.External.InitModuleUI
 import com.ageone.zenit.Modules.Event.rows.EventItemViewHolder
 import com.ageone.zenit.Modules.Event.rows.EventTextViewHolder
 import com.ageone.zenit.Modules.Event.rows.initialize
+import com.ageone.zenit.UIComponents.ViewHolders.EventViewHolder
+import com.ageone.zenit.UIComponents.ViewHolders.initialize
 import yummypets.com.stevia.*
 
 class EventView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initModuleUI) {
@@ -94,7 +96,7 @@ class EventView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMo
                     EventTextViewHolder(layout)
                 }
                 EventItemType -> {
-                    EventItemViewHolder(layout)
+                EventViewHolder(layout)
                 }
                 else -> {
                     BaseViewHolder(layout)
@@ -110,7 +112,7 @@ class EventView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMo
                 is EventTextViewHolder -> {
                     holder.initialize(monthMap[position]!!)
                 }
-                is EventItemViewHolder -> {
+                is EventViewHolder -> {
                     if(position == 1) {
                         holder.textViewEvent.typeface = Typeface.DEFAULT_BOLD
                         holder.shape.setColor(Color.parseColor("#C6F0FF"))
@@ -121,7 +123,7 @@ class EventView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMo
                             emitEvent?.invoke(EventViewModel.EventType.OnEventPressed.name)
                         }
                     }
-                    holder.initialize(1571511600,text[position])
+                    holder.initialize("dd.MM.yyyy, HH:MM",1571511600,text[position])
                 }
             }
         }

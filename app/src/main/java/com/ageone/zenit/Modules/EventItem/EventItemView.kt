@@ -25,7 +25,7 @@ class EventItemView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(in
         viewAdapter
     }
 
-    val isRegistration = true
+    val isRegistered = false
 
     init {
 //        viewModel.loadRealmData()
@@ -64,7 +64,7 @@ class EventItemView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(in
         private val EventTextType = 1
         private val EventButtonType = 2
 
-        override fun getItemCount() = if(isRegistration) 4 else 3//viewModel.realmData.size
+        override fun getItemCount() = if(isRegistered) 4 else 3//viewModel.realmData.size
 
         override fun getItemViewType(position: Int): Int = when (position) {
             0 -> EventImageType
@@ -88,7 +88,7 @@ class EventItemView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(in
                     EventItemTextViewHolder(layout)
                 }
                 EventButtonType -> {
-                    if(isRegistration)
+                    if(isRegistered)
                         EventItemButtonViewHolder(layout)
                     else
                         ButtonViewHolder(layout)
@@ -136,7 +136,7 @@ class EventItemView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(in
                 is ButtonViewHolder -> {
                     holder.initialize("Зарегистрироваться")
                     holder.button.setOnClickListener {
-
+                        emitEvent?.invoke(EventItemViewModel.EventType.OnRegistrationPressed.name)
                     }
                 }
             }

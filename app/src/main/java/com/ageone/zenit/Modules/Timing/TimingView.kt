@@ -7,8 +7,6 @@ import com.ageone.zenit.External.Base.Module.BaseModule
 import com.ageone.zenit.External.Base.RecyclerView.BaseAdapter
 import com.ageone.zenit.External.Base.RecyclerView.BaseViewHolder
 import com.ageone.zenit.External.InitModuleUI
-import com.ageone.zenit.Modules.Timing.rows.TimingItemViewHolder
-import com.ageone.zenit.Modules.Timing.rows.initialize
 import com.ageone.zenit.UIComponents.ViewHolders.EventViewHolder
 import com.ageone.zenit.UIComponents.ViewHolders.initialize
 import yummypets.com.stevia.*

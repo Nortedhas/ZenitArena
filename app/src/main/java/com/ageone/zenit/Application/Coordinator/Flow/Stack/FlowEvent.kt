@@ -17,6 +17,9 @@ import com.ageone.zenit.Modules.EventItem.EventItemViewModel
 import com.ageone.zenit.Modules.EventMap.EventMapModel
 import com.ageone.zenit.Modules.EventMap.EventMapView
 import com.ageone.zenit.Modules.EventMap.EventMapViewModel
+import com.ageone.zenit.Modules.EventReg.EventRegModel
+import com.ageone.zenit.Modules.EventReg.EventRegView
+import com.ageone.zenit.Modules.EventReg.EventRegViewModel
 import com.ageone.zenit.Modules.Photo.PhotoModel
 import com.ageone.zenit.Modules.Photo.PhotoView
 import com.ageone.zenit.Modules.Photo.PhotoViewModel
@@ -76,6 +79,7 @@ class FlowEvent(previousFlow: BaseFlow? = null) : BaseFlow() {
         val modelTiming = TimingModel()
         val modelEventMap = EventMapModel()
         val modelPhoto = PhotoModel()
+        val modelEventReg = EventRegModel()
     }
 
     fun runModuleEvent() {
@@ -112,6 +116,9 @@ class FlowEvent(previousFlow: BaseFlow? = null) : BaseFlow() {
                 }
                 EventItemViewModel.EventType.OnMapPressed -> {
                     runModuleEventMap()
+                }
+                EventItemViewModel.EventType.OnRegistrationPressed -> {
+                    runModuleEventReg()
                 }
             }
         }
@@ -179,4 +186,23 @@ class FlowEvent(previousFlow: BaseFlow? = null) : BaseFlow() {
         push(module)
     }
 
+    fun runModuleEventReg() {
+        val module = EventRegView(
+            InitModuleUI(
+                isBottomNavigationVisible = false,
+                isBackPressed = true
+            ))
+
+        module.viewModel.initialize(models.modelEventReg) { module.reload() }
+
+        settingsCurrentFlow.isBottomNavigationVisible = false
+
+        module.emitEvent = { event ->
+            when(EventRegViewModel.EventType.valueOf(event)) {
+
+            }
+        }
+
+        push(module)
+    }
 }

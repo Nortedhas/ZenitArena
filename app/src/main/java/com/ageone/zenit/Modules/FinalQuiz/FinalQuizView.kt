@@ -105,7 +105,7 @@ class FinalQuizView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(in
 
             when (holder) {
                 is FinalQuizTextViewHolder -> {
-                    holder.initialize(textQuiz[position]!!)
+                    holder.initialize(textQuiz[position] ?: "")
                 }
                 is FinalQuizTextInputViewHolder -> {
                     holder.initialize("Мой ответ", InputEditTextType.TEXT)

@@ -110,7 +110,7 @@ class EventView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMo
 
             when (holder) {
                 is EventTextViewHolder -> {
-                    holder.initialize(monthMap[position]!!)
+                    holder.initialize(monthMap[position] ?: "")
                 }
                 is EventViewHolder -> {
                     if(position == 1) {

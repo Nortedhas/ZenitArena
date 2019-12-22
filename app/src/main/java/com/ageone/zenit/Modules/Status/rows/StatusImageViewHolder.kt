@@ -3,12 +3,14 @@ package com.ageone.zenit.Modules.Status.rows
 import android.graphics.Color
 import android.graphics.Typeface
 import android.view.Gravity
+import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.ageone.zenit.Application.utils
 import com.ageone.zenit.External.Base.ImageView.BaseImageView
 import com.ageone.zenit.External.Base.RecyclerView.BaseViewHolder
 import com.ageone.zenit.External.Base.TextView.BaseTextView
 import com.ageone.zenit.External.Libraries.Glide.addImageFromGlide
+import com.ageone.zenit.Modules.Status.Prizes
 import yummypets.com.stevia.*
 
 class StatusImageViewHolder(val constraintLayout: ConstraintLayout) :
@@ -28,6 +30,7 @@ class StatusImageViewHolder(val constraintLayout: ConstraintLayout) :
         textView.textSize = 10F
         textView.textColor = Color.parseColor("#3ACCFF")
         textView.setBackgroundColor(Color.TRANSPARENT)
+        textView.visibility = View.GONE
         textView
     }
 
@@ -38,6 +41,7 @@ class StatusImageViewHolder(val constraintLayout: ConstraintLayout) :
         textView.textSize = 10F
         textView.textColor = Color.parseColor("#3ACCFF")
         textView.setBackgroundColor(Color.TRANSPARENT)
+        textView.visibility = View.GONE
         textView
     }
 
@@ -48,6 +52,7 @@ class StatusImageViewHolder(val constraintLayout: ConstraintLayout) :
         textView.textSize = 10F
         textView.textColor = Color.parseColor("#3ACCFF")
         textView.setBackgroundColor(Color.TRANSPARENT)
+        textView.visibility = View.GONE
         textView
     }
 
@@ -58,6 +63,7 @@ class StatusImageViewHolder(val constraintLayout: ConstraintLayout) :
         textView.textSize = 10F
         textView.textColor = Color.parseColor("#3ACCFF")
         textView.setBackgroundColor(Color.TRANSPARENT)
+        textView.visibility = View.GONE
         textView
     }
 
@@ -68,6 +74,7 @@ class StatusImageViewHolder(val constraintLayout: ConstraintLayout) :
         textView.textSize = 10F
         textView.textColor = Color.parseColor("#3ACCFF")
         textView.setBackgroundColor(Color.TRANSPARENT)
+        textView.visibility = View.GONE
         textView
     }
 
@@ -78,6 +85,7 @@ class StatusImageViewHolder(val constraintLayout: ConstraintLayout) :
         textView.textSize = 10F
         textView.textColor = Color.parseColor("#3ACCFF")
         textView.setBackgroundColor(Color.TRANSPARENT)
+        textView.visibility = View.GONE
         textView
     }
 
@@ -88,8 +96,19 @@ class StatusImageViewHolder(val constraintLayout: ConstraintLayout) :
         textView.textSize = 10F
         textView.textColor = Color.parseColor("#3ACCFF")
         textView.setBackgroundColor(Color.TRANSPARENT)
+        textView.visibility = View.GONE
         textView
     }
+
+    val textViews = arrayListOf(
+        textViewBalance1,
+        textViewBalance2,
+        textViewBalance3,
+        textViewBalance4,
+        textViewBalance5,
+        textViewBalance6,
+        textViewBalance7
+    )
 
     init {
 
@@ -117,7 +136,7 @@ fun StatusImageViewHolder.renderUI() {
         .constrainTopToTopOf(constraintLayout, 32)
         .constrainRightToRightOf(constraintLayout)
         .constrainLeftToLeftOf(constraintLayout)
-        .constrainBottomToBottomOf(constraintLayout,32)
+        .constrainBottomToBottomOf(constraintLayout,48)
         .width(width)
         .height(height)
 
@@ -150,17 +169,16 @@ fun StatusImageViewHolder.renderUI() {
         .constrainRightToRightOf(imageView, utils.tools.getActualSizeFromDes(112).toInt())
 }
 
-fun StatusImageViewHolder.initialize(image: Int) {
+fun StatusImageViewHolder.initialize(image: Int, countVisitedMatches: Int) {
     addImageFromGlide(imageView, image, 0)
-    textViewBalance1.text = "Вам осталось 2"
-    textViewBalance2.text = "Вам осталось 2"
-    textViewBalance3.text = "Вам осталось 2"
-    textViewBalance4.text = "Вам осталось 2"
-    textViewBalance5.text = "Вам осталось 2"
-    textViewBalance6.text = "Вам осталось 2"
-    textViewBalance7.text = "Вам осталось 2"
 
-    /*imageView
-        .width(utils.tools.getActualSizeFromDes(360))
-        .height(utils.tools.getActualSizeFromDes(885))*/
+    for (prize in Prizes.values()) {
+        if (countVisitedMatches < prize.matchNum) {
+            textViews[prize.ordinal].apply {
+                text = "Вам осталось ${prize.matchNum - countVisitedMatches}"
+                visibility = View.VISIBLE
+            }
+
+        }
+    }
 }

@@ -3,6 +3,7 @@ package com.ageone.zenit.Modules.Status
 import com.ageone.zenit.Application.utils
 import com.ageone.zenit.External.Interfaces.InterfaceModel
 import com.ageone.zenit.External.Interfaces.InterfaceViewModel
+import com.ageone.zenit.R
 
 class StatusViewModel : InterfaceViewModel {
     var model = StatusModel()
@@ -22,8 +23,20 @@ class StatusViewModel : InterfaceViewModel {
             completion.invoke()
         }
     }
+
 }
 
+enum class Prizes(val matchNum: Int){
+    Tape(4),
+    Letter(5),
+    Jacket(7),
+    Hat(14),
+    Backpack(21),
+    Sweatshirt(28),
+    Socks(35)
+}
 class StatusModel : InterfaceModel {
-
+    val countMatches = 7
+    var countEventsBeforePrize = 0
+    var image = R.drawable.pic_status_7
 }

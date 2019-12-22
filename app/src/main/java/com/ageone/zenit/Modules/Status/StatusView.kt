@@ -98,18 +98,33 @@ class StatusView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initM
         }
 
         override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
+            for (prize in Prizes.values()) {
+                if (viewModel.model.countMatches < prize.matchNum) {
+                    viewModel.model.countEventsBeforePrize = prize.matchNum - viewModel.model.countMatches
+                    viewModel.model.image = when (prize.ordinal) {
+                        1 -> R.drawable.pic_status_1
+                        2 -> R.drawable.pic_status_2
+                        3 -> R.drawable.pic_status_3
+                        4 -> R.drawable.pic_status_4
+                        5 -> R.drawable.pic_status_5
+                        6 -> R.drawable.pic_status_6
+                        else -> R.drawable.pic_status_0
+                    }
+                    break
+                }
+            }
 
             when (holder) {
                 is StatusTitleBeforePresentViewHolder -> {
-                    holder.initialize(2)
+                    holder.initialize(viewModel.model.countEventsBeforePrize)
                 }
 
                 is StatusVisitedViewHolder -> {
-                    holder.initialize(2)
+                    holder.initialize(viewModel.model.countMatches)
                 }
 
                 is StatusImageViewHolder -> {
-                    holder.initialize(R.drawable.pic_status_2)
+                    holder.initialize(viewModel.model.image, viewModel.model.countMatches)
                 }
 
             }

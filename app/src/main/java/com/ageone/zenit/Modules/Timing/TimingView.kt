@@ -48,7 +48,7 @@ class TimingView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initM
 
         backgroundFullscreen.setBackgroundColor(Color.WHITE)
 
-        toolbar.title = "Тиминг"
+        toolbar.title = "Тайминг"
         toolbar.textColor = Color.parseColor("#00ACEB")
 
         renderToolbar()

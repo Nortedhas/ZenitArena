@@ -1,13 +1,16 @@
 package com.ageone.zenit.Application.Coordinator.Flow.Stack
 
+import android.graphics.Color
 import androidx.core.view.children
 import com.ageone.zenit.Application.Coordinator.Flow.FlowCoordinator
 import com.ageone.zenit.Application.Coordinator.Flow.FlowCoordinator.MainUIObject.flowStorage
 import com.ageone.zenit.Application.Coordinator.Router.DataFlow
 import com.ageone.zenit.Application.Coordinator.Router.TabBar.Stack
+import com.ageone.zenit.Application.currentActivity
 import com.ageone.zenit.External.Base.Flow.BaseFlow
 import com.ageone.zenit.External.Base.Module.BaseModule
 import com.ageone.zenit.External.Base.Module.ModuleInterface
+import com.ageone.zenit.External.Extensions.Activity.setLightStatusBar
 import com.ageone.zenit.External.InitModuleUI
 import com.ageone.zenit.Modules.Chat.ChatModel
 import com.ageone.zenit.Modules.Chat.ChatView
@@ -26,6 +29,14 @@ fun FlowCoordinator.runFlowMessage() {
         flowStorage.displayFlow(flow.viewFlipperModule)
 
         flow.settingsCurrentFlow = DataFlow(flowStorage.size - 1)
+
+        currentActivity?.setLightStatusBar(Color.TRANSPARENT, Color.GRAY)
+
+        flow.isLightStatusBar = true
+        flow.colorStatusBar = Color.TRANSPARENT
+        flow.colorStatusBarDark = Color.GRAY
+
+        flow.colorNavigationBar = Color.BLACK
 
         Stack.flows.add(flow)
     }

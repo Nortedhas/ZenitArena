@@ -44,5 +44,6 @@ fun StatusTitleBeforePresentViewHolder.renderUI() {
 }
 
 fun StatusTitleBeforePresentViewHolder.initialize(count: Int) {
-    textViewTitle.text = "До следующего приза осталось матчей: $count"
+    textViewTitle.text = if (count == -1) "Поздравляем! Вы дошли до главного приза!"
+    else "До следующего приза осталось: $count"
 }

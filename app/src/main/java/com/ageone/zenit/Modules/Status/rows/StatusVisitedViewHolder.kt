@@ -33,7 +33,7 @@ class StatusVisitedViewHolder(val constraintLayout: ConstraintLayout) :
     
     val textViewCount by lazy {
         val textView = BaseTextView()
-        textView.gravity = Gravity.START
+        textView.gravity = Gravity.CENTER
         textView.typeface = Typeface.DEFAULT_BOLD
         textView.textSize = 22F
         textView.textColor = Color.parseColor("#FFFFFF")
@@ -55,7 +55,7 @@ class StatusVisitedViewHolder(val constraintLayout: ConstraintLayout) :
 
     init {
         textView.text = "Вы посетили:"
-        textViewEvents.text = "матчей"
+        textViewEvents.text = "Мероприятий:"
 
         renderUI()
     }
@@ -65,10 +65,10 @@ class StatusVisitedViewHolder(val constraintLayout: ConstraintLayout) :
 fun StatusVisitedViewHolder.renderUI() {
     constraintLayout.subviews(
         textView,
+        textViewEvents,
         viewCircle.subviews(
             textViewCount
-        ),
-        textViewEvents
+        )
     )
 
     textView
@@ -76,19 +76,21 @@ fun StatusVisitedViewHolder.renderUI() {
         .fillHorizontally()
         .constrainLeftToLeftOf(constraintLayout, 32)
 
+    textViewEvents
+        .constrainTopToBottomOf(textView, 16)
+//        .fillHorizontally()
+        .constrainLeftToLeftOf(constraintLayout, 32)
+
     viewCircle
         .height(45)
         .width(45)
-        .constrainLeftToLeftOf(constraintLayout, 32)
-        .constrainTopToBottomOf(textView, 16)
+        .constrainLeftToRightOf(textViewEvents, 16)
+        .constrainCenterYToCenterYOf(textViewEvents)
+
 
     textViewCount
-        .centerInParent()
-
-    textViewEvents
-        .constrainCenterYToCenterYOf(viewCircle)
         .fillHorizontally()
-        .constrainLeftToRightOf(viewCircle, 16)
+        .fillVertically()
 
 }
 

@@ -27,7 +27,11 @@ fun FlowCoordinator.runFlowAuth() {
 
         currentActivity?.setLightStatusBar(Color.TRANSPARENT, Color.GRAY)
 
-        //todo: add status bar colors!
+        flow.isLightStatusBar = true
+        flow.colorStatusBar = Color.TRANSPARENT
+        flow.colorStatusBarDark = Color.GRAY
+
+        flow.colorNavigationBar = Color.BLACK
 
         flow.settingsCurrentFlow = DataFlow(flowStorage.size - 1)
 

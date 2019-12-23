@@ -150,7 +150,7 @@ fun StatusImageViewHolder.renderUI() {
 
     textViewBalance3
         .constrainTopToTopOf(imageView, utils.tools.getActualSizeFromDes(405).toInt())
-        .constrainRightToRightOf(imageView, utils.tools.getActualSizeFromDes(83).toInt())
+        .constrainRightToRightOf(imageView, utils.tools.getActualSizeFromDes(85).toInt())
 
     textViewBalance4
         .constrainTopToTopOf(imageView, utils.tools.getActualSizeFromDes(312).toInt())
@@ -158,7 +158,7 @@ fun StatusImageViewHolder.renderUI() {
 
     textViewBalance5
         .constrainTopToTopOf(imageView, utils.tools.getActualSizeFromDes(575).toInt())
-        .constrainRightToRightOf(imageView, utils.tools.getActualSizeFromDes(41).toInt())
+        .constrainRightToRightOf(imageView, utils.tools.getActualSizeFromDes(37).toInt())
 
     textViewBalance6
         .constrainTopToTopOf(imageView, utils.tools.getActualSizeFromDes(732).toInt())
@@ -166,7 +166,7 @@ fun StatusImageViewHolder.renderUI() {
 
     textViewBalance7
         .constrainTopToTopOf(imageView, utils.tools.getActualSizeFromDes(888).toInt())
-        .constrainRightToRightOf(imageView, utils.tools.getActualSizeFromDes(112).toInt())
+        .constrainRightToRightOf(imageView, utils.tools.getActualSizeFromDes(107).toInt())
 }
 
 fun StatusImageViewHolder.initialize(image: Int, countVisitedMatches: Int) {

@@ -36,7 +36,7 @@ enum class Prizes(val matchNum: Int){
     Socks(35)
 }
 class StatusModel : InterfaceModel {
-    val countMatches = 7
-    var countEventsBeforePrize = 0
+    val countMatches = 3
+    var countEventsBeforePrize = -1
     var image = R.drawable.pic_status_7
 }

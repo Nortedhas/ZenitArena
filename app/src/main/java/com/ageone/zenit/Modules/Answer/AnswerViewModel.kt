@@ -26,4 +26,6 @@ class AnswerViewModel : InterfaceViewModel {
 
 class AnswerModel : InterfaceModel {
     var answer = ""
+    var answerPosition = ""
+    var answerOffer = ""
 }

@@ -14,10 +14,29 @@ class RxData {
             RxBus.publish(RxEvent.EventChangeAnswer())
         }
     }
+    var answerPosition: String by Delegates.observable("") { property, oldValue, newValue ->
+        if(newValue != oldValue) {
+            RxBus.publish(RxEvent.EventChangeAnswerPosition())
+        }
+    }
+    var answerOffer: String by Delegates.observable("") { property, oldValue, newValue ->
+        if(newValue != oldValue) {
+            RxBus.publish(RxEvent.EventChangeAnswerOffer())
+        }
+    }
+
+    var callAnswer: String by Delegates.observable("") { property, oldValue, newValue ->
+        if(newValue != oldValue) {
+            RxBus.publish(RxEvent.EventChangeCallAnswer())
+        }
+    }
 }
 
 class RxEvent {
     class EventChangeAddress
     data class EventLoadImage(val loadedImage: Image)
     class EventChangeAnswer
+    class EventChangeAnswerPosition
+    class EventChangeAnswerOffer
+    class EventChangeCallAnswer
 }

@@ -13,7 +13,6 @@ import com.ageone.zenit.Modules.Profile.rows.ProfilePhotoViewHolder
 import com.ageone.zenit.Modules.Profile.rows.ProfileTextViewHolder
 import com.ageone.zenit.Modules.Profile.rows.initialize
 import com.ageone.zenit.R
-import com.ageone.zenit.SCAG.Image
 import com.ageone.zenit.UIComponents.ViewHolders.ButtonViewHolder
 import com.ageone.zenit.UIComponents.ViewHolders.initialize
 import yummypets.com.stevia.*
@@ -27,10 +26,37 @@ class ProfileView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(init
         viewAdapter
     }
 
-//    var currentLoadImage: Image? = null
+    val profileField = mutableMapOf<Int, String>()
+    val profileValue = mutableMapOf<Int, String>()
 
     init {
 //        viewModel.loadRealmData()
+
+        profileField[1] = "ФИО"
+        profileField[2] = "Пол"
+        profileField[3] = "Дата рождения"
+        profileField[4] = "Место рождения"
+        profileField[5] = "Email"
+        profileField[6] = "Номер телефона"
+        profileField[7] = "Серия и номер паспорта"
+        profileField[8] = "Кем и когда выдан"
+        profileField[9] = "Снилс"
+        profileField[10] = "Инн"
+        profileField[11] = "Место работы/учёбы"
+        profileField[12] = "Размер Куртки"
+
+        profileValue[1] = "Волкова Анна Александровна"
+        profileValue[2] = "Женский"
+        profileValue[3] = "12.11.2000"
+        profileValue[4] = "г. Санкт-Петербург"
+        profileValue[5] = "volcovana@gmail.com"
+        profileValue[6] = "+ 7 (951) 123 34 67"
+        profileValue[7] = "1234 546789"
+        profileValue[8] = "Отделом УФМС России по Ленинградской\nобл. Отделом УФМС России"
+        profileValue[9] = "23456789123"
+        profileValue[10] = "12357987789"
+        profileValue[11] = "школа №42"
+        profileValue[12] = "S"
 
         backgroundFullscreen.setBackgroundColor(Color.WHITE)
 
@@ -53,12 +79,11 @@ class ProfileView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(init
     }
 
     fun bindUI() {
-//        compositeDisposable.addAll(
-//            RxBus.listen(RxEvent.EventLoadImage::class.java).subscribe { event ->
-//                currentLoadImage = event.loadedImage
-//                bodyTable.adapter?.notifyDataSetChanged()
-//            }
-//        )
+        /*compositeDisposable.addAll(
+            RxBus.listen(RxEvent.Event::class.java).subscribe {
+                bodyTable.adapter?.notifyDataSetChanged()
+            }
+        )*/
     }
 
     inner class Factory(val rootModule: BaseModule) : BaseAdapter<BaseViewHolder>() {
@@ -67,11 +92,11 @@ class ProfileView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(init
         private val ProfileTextType = 1
         private val ProfileButtonType = 2
 
-        override fun getItemCount() = 15//viewModel.realmData.size
+        override fun getItemCount() = 14//viewModel.realmData.size
 
         override fun getItemViewType(position: Int): Int = when (position) {
             0 -> ProfilePhotoType
-            14 -> ProfileButtonType
+            13 -> ProfileButtonType
             else -> ProfileTextType
         }
 
@@ -108,7 +133,7 @@ class ProfileView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(init
                     holder.initialize(R.drawable.pic_profile_1)
                 }
                 is ProfileTextViewHolder -> {
-                    holder.initialize("ФИО", "Волкова Анна Александровна")
+                    holder.initialize(profileField[position] ?: "", profileValue[position] ?: "")
                 }
                 is ButtonViewHolder -> {
                     holder.initialize("Мой QR-код")

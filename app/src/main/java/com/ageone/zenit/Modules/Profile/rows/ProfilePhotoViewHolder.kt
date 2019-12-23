@@ -31,8 +31,12 @@ fun ProfilePhotoViewHolder.renderUI() {
         imageViewPhoto
     )
 
+    constraintLayout
+        .setBackgroundColor(Color.parseColor("#FAFBFF"))
+
     imageViewPhoto
-        .constrainTopToTopOf(constraintLayout,32)
+        .constrainTopToTopOf(constraintLayout,16)
+        .constrainBottomToBottomOf(constraintLayout,16)
         .constrainCenterXToCenterXOf(constraintLayout)
         .height(120)
         .width(120)
@@ -41,5 +45,5 @@ fun ProfilePhotoViewHolder.renderUI() {
 }
 
 fun ProfilePhotoViewHolder.initialize(imagePreview: Int) {
-    addImageFromGlide(imageViewPhoto,imagePreview ,60.dp)
+    addImageFromGlide(imageViewPhoto, imagePreview, 60.dp)
 }

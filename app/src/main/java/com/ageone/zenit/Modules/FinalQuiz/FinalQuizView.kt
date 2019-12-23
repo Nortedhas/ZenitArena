@@ -6,12 +6,15 @@ import android.view.MotionEvent
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.ageone.zenit.Application.currentActivity
+import com.ageone.zenit.Application.rxData
 import com.ageone.zenit.External.Base.Module.BaseModule
 import com.ageone.zenit.External.Base.RecyclerView.BaseAdapter
 import com.ageone.zenit.External.Base.RecyclerView.BaseViewHolder
 import com.ageone.zenit.External.Base.TextInputLayout.InputEditTextType
 import com.ageone.zenit.External.Extensions.Activity.hideKeyboard
 import com.ageone.zenit.External.InitModuleUI
+import com.ageone.zenit.External.RxBus.RxBus
+import com.ageone.zenit.Models.RxEvent
 import com.ageone.zenit.Modules.FinalQuiz.rows.FinalQuizTextInputViewHolder
 import com.ageone.zenit.Modules.FinalQuiz.rows.FinalQuizTextViewHolder
 import com.ageone.zenit.Modules.FinalQuiz.rows.initialize
@@ -58,11 +61,14 @@ class FinalQuizView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(in
     }
 
     fun bindUI() {
-        /*compositeDisposable.addAll(
-            RxBus.listen(RxEvent.Event::class.java).subscribe {
+        compositeDisposable.addAll(
+            RxBus.listen(RxEvent.EventChangeAnswerPosition::class.java).subscribe {
+                bodyTable.adapter?.notifyDataSetChanged()
+            },
+            RxBus.listen(RxEvent.EventChangeAnswerOffer::class.java).subscribe {
                 bodyTable.adapter?.notifyDataSetChanged()
             }
-        )*/
+        )
     }
 
     inner class Factory(val rootModule: BaseModule) : BaseAdapter<BaseViewHolder>() {
@@ -113,11 +119,26 @@ class FinalQuizView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(in
                 }
                 is FinalQuizTextInputViewHolder -> {
                     holder.initialize("Мой ответ", InputEditTextType.TEXT)
+
+                    if(rxData.answerPosition.isNotBlank() && position == 1) {
+                        holder.textInputFinalQuiz.editText?.setText(rxData.answerPosition)
+                    }
+
+                    if(rxData.answerOffer.isNotBlank() && position == 3) {
+                        holder.textInputFinalQuiz.editText?.setText(rxData.answerOffer)
+                    }
+
                     holder.textInputFinalQuiz.editText?.setOnTouchListener { v, event ->
                         if(event.action == MotionEvent.ACTION_DOWN) {
                             Handler().postDelayed({
                                 currentActivity?.hideKeyboard()
                             },300)
+
+                            when(position) {
+                                1 -> rxData.callAnswer = "answerPosition"
+                                3 -> rxData.callAnswer = "answerOffer"
+                            }
+
                             emitEvent?.invoke(FinalQuizViewModel.EventType.OnAnswerPressed.name)
                         }
                         false

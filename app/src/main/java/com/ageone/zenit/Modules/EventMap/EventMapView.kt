@@ -7,7 +7,7 @@ import com.ageone.zenit.External.Base.Module.BaseModule
 import com.ageone.zenit.External.Base.RecyclerView.BaseAdapter
 import com.ageone.zenit.External.Base.RecyclerView.BaseViewHolder
 import com.ageone.zenit.External.InitModuleUI
-import com.ageone.zenit.Modules.EventMap.rows.EventMapImageViewHolder
+import com.ageone.zenit.Modules.EventMap.rows.EventMapItemViewHolder
 import com.ageone.zenit.Modules.EventMap.rows.EventMapTextViewHolder
 import com.ageone.zenit.Modules.EventMap.rows.initialize
 import com.ageone.zenit.R
@@ -22,14 +22,19 @@ class EventMapView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(ini
         viewAdapter
     }
 
-    val textMap = mutableMapOf<Int, String>()
+    val textMap = arrayOf(
+        "Аккредитационный центр",
+        "Аккредитационный центр",
+        "Карта Газпром Арена")
+    val imageMap = arrayOf(
+        R.drawable.pic_event_map_1,
+        R.drawable.pic_event_map_2,
+        R.drawable.pic_event_map_3
+    )
     init {
 //        viewModel.loadRealmData()
 
         backgroundFullscreen.setBackgroundColor(Color.WHITE)
-
-        textMap[0] = "Аккредитационный центр"
-        textMap[3] = "Карта Газпром Арена"
 
         toolbar.title = "Карты"
         toolbar.textColor = Color.parseColor("#00ACEB")
@@ -59,14 +64,12 @@ class EventMapView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(ini
 
     inner class Factory(val rootModule: BaseModule) : BaseAdapter<BaseViewHolder>() {
 
-        private val EventMapTextType = 0
-        private val EventMapImageType = 1
+        private val EventMapItemType = 0
 
-        override fun getItemCount() = 5//viewModel.realmData.size
+        override fun getItemCount() = 3//viewModel.realmData.size
 
         override fun getItemViewType(position: Int): Int = when (position) {
-            0,3 -> EventMapTextType
-            else -> EventMapImageType
+            else -> EventMapItemType
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
@@ -78,11 +81,8 @@ class EventMapView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(ini
                 .height(wrapContent)
 
             val holder = when (viewType) {
-                EventMapTextType -> {
-                    EventMapTextViewHolder(layout)
-                }
-                EventMapImageType -> {
-                    EventMapImageViewHolder(layout)
+                EventMapItemType -> {
+                    EventMapItemViewHolder(layout)
                 }
                 else -> {
                     BaseViewHolder(layout)
@@ -95,11 +95,8 @@ class EventMapView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(ini
         override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
 
             when (holder) {
-                is EventMapTextViewHolder -> {
-                    holder.initialize(textMap[position]!!)
-                }
-                is EventMapImageViewHolder -> {
-                    holder.initialize(R.drawable.pic_item_1)
+                is EventMapItemViewHolder -> {
+                    holder.initialize(imageMap[position], textMap[position])
                     holder.imageViewMap.setOnClickListener {
                         emitEvent?.invoke(EventMapViewModel.EventType.OnPhotoPressed.name)
                     }

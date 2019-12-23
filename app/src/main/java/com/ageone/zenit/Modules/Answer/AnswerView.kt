@@ -11,6 +11,7 @@ import com.ageone.zenit.External.Base.Module.BaseModule
 import com.ageone.zenit.External.Base.TextInputLayout.BaseTextInputLayout
 import com.ageone.zenit.External.Base.TextView.BaseTextView
 import com.ageone.zenit.External.InitModuleUI
+import timber.log.Timber
 import yummypets.com.stevia.*
 
 class AnswerView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initModuleUI) {
@@ -67,12 +68,30 @@ class AnswerView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initM
         renderUIO()
         bindUI()
 
-        if(rxData.answer.isNotBlank()) {
+        if(rxData.answer.isNotBlank() && rxData.callAnswer == "quiz") {
             textInputAnswer.editText?.setText(rxData.answer)
         }
 
+        if(rxData.answerPosition.isNotBlank() && rxData.callAnswer == "answerPosition") {
+            textInputAnswer.editText?.setText(rxData.answerPosition)
+        }
+
+        if(rxData.answerOffer.isNotBlank() && rxData.callAnswer == "answerOffer") {
+            textInputAnswer.editText?.setText(rxData.answerOffer)
+        }
+
         textInputAnswer.editText?.doOnTextChanged { text, start, count, after ->
-            viewModel.model.answer = text.toString()
+            when(rxData.callAnswer) {
+                "quiz" -> {
+                    viewModel.model.answer = text.toString()
+                }
+                "answerPosition" -> {
+                    viewModel.model.answerPosition = text.toString()
+                }
+                "answerOffer" -> {
+                    viewModel.model.answerOffer = text.toString()
+                }
+            }
         }
 
         buttonAnswer.setOnClickListener {
@@ -80,6 +99,8 @@ class AnswerView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initM
         }
         onDeInit = {
             rxData.answer = viewModel.model.answer
+            rxData.answerPosition = viewModel.model.answerPosition
+            rxData.answerOffer = viewModel.model.answerOffer
             unBind()
         }
 

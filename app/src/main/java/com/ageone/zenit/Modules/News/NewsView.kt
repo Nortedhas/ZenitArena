@@ -120,7 +120,7 @@ class NewsView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMod
                         news[position])
 
                     if(position == 0) {
-                        holder.imageViewNews.setOnClickListener {
+                        holder.imageViewNews.setOnClickListener {//TODO : remove
                             emitEvent?.invoke(NewsViewModel.EventType.OnFinalQuizPressed.name)
                         }
                     }

@@ -64,7 +64,7 @@ class EventItemView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(in
         private val EventTextType = 1
         private val EventButtonType = 2
 
-        override fun getItemCount() = if(isRegistered) 4 else 3//viewModel.realmData.size
+        override fun getItemCount() = 3//viewModel.realmData.size
 
         override fun getItemViewType(position: Int): Int = when (position) {
             0 -> EventImageType
@@ -88,10 +88,7 @@ class EventItemView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(in
                     EventItemTextViewHolder(layout)
                 }
                 EventButtonType -> {
-                    if(isRegistered)
-                        EventItemButtonViewHolder(layout)
-                    else
-                        ButtonViewHolder(layout)
+                    EventItemButtonViewHolder(layout)
                 }
                 else -> {
                     BaseViewHolder(layout)
@@ -117,26 +114,15 @@ class EventItemView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(in
                             "В свою очередь сине-бело-голубые не сдают позиции и всего два раза отпускали томичей с ничейным счетом за прошедшие 10 лет.")
                 }
                 is EventItemButtonViewHolder -> {
-                    when(position) {
-                        2 -> {
-                            holder.initialize(R.drawable.ic_timing,"Тайминг")
-                            holder.viewEventItem.setOnClickListener {
-                                emitEvent?.invoke(EventItemViewModel.EventType.OnTimingPressed.name)
-                            }
-                        }
-                        3 -> {
-                            holder.initialize(R.drawable.ic_map,"Как добраться")
-                            holder.viewEventItem.setOnClickListener {
-                                emitEvent?.invoke(EventItemViewModel.EventType.OnMapPressed.name)
-                            }
-                        }
-                    }
-                }
-
-                is ButtonViewHolder -> {
-                    holder.initialize("Зарегистрироваться")
-                    holder.button.setOnClickListener {
+                    holder.initialize()
+                    holder.buttonEventItem.setOnClickListener {
                         emitEvent?.invoke(EventItemViewModel.EventType.OnRegistrationPressed.name)
+                    }
+                    holder.viewEventItemTiming.setOnClickListener {
+                        emitEvent?.invoke(EventItemViewModel.EventType.OnTimingPressed.name)
+                    }
+                    holder.viewEventItemMap.setOnClickListener {
+                        emitEvent?.invoke(EventItemViewModel.EventType.OnMapPressed.name)
                     }
                 }
             }

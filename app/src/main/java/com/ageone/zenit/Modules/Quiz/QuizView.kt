@@ -125,7 +125,7 @@ class QuizView(initModuleUI: InitModuleUI = InitModuleUI()) : BaseModule(initMod
                             Handler().postDelayed({
                                 currentActivity?.hideKeyboard()
                             },300)
-
+                            rxData.callAnswer = "quiz"
                             rootModule.emitEvent?.invoke(QuizViewModel.EventType.OnAnswerPressed.name)
                         }
                         false

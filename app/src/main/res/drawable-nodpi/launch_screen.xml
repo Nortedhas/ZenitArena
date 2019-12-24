@@ -5,28 +5,29 @@
     <item android:drawable="@android:color/white"/>
 
     <item
-            android:height="505px"
-            android:width="400px"
             android:gravity="right"
             android:top="146dp"
             android:bottom="226dp"
-            android:left="68dp"
-            >
+            android:left="68dp">
         <bitmap
+
+                android:height="400dp"
+                android:width="307dp"
                 android:src="@drawable/loading_lion"
                 android:scaleType="centerCrop"
-        />
+                />
 
     </item>
 
+    <!--android:width="208dp"
+                android:height="78dp"-->
 
-    <item
-            android:width="208dp"
-            android:height="78dp"
-            android:gravity="center_vertical|center_horizontal"
-            >
+    <item>
 
         <bitmap
+                android:width="208dp"
+                android:height="78dp"
+                android:gravity="center"
                 android:src="@drawable/zenit_logo"
                 android:scaleType="centerCrop"
                 />
